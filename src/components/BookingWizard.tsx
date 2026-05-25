@@ -17,8 +17,9 @@ const categoriaToEspecialidad: Record<string, string[]> = {
 
 const diasSemana = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
 
-const getSlotsForEmpleado = (empleadoId: string, fecha: string) => {
+const getSlotsForEmpleado = (empleadoId: string, fecha: string, servicioId: string) => {
   const emp = empleados.find(e => e.id === empleadoId);
+  const svc = servicios.find(s => s.id === servicioId);
   if (!emp || !fecha) return [];
   
   const date = new Date(fecha + 'T12:00:00');
@@ -27,14 +28,39 @@ const getSlotsForEmpleado = (empleadoId: string, fecha: string) => {
   
   if (!horario) return [];
   
-  const slots = [];
+  // Calcular la duración del servicio en horas
+  let duracionHoras = 1; // default 1 hora
+  if (svc?.duracion) {
+    // Extraer números de la duración (ej: "30-45 min" → 1, "2-3 h" → 3, "3 - 4h" → 4)
+    const match = svc.duracion.match(/(\d+)\s*(?:-\s*(\d+))?\s*(min|h)/i);
+    if (match) {
+      const num2 = match[2] ? parseInt(match[2]) : parseInt(match[1]);
+      const unidad = match[3].toLowerCase();
+      duracionHoras = unidad === 'min' ? Math.ceil(num2 / 60) : num2;
+      if (duracionHoras < 1) duracionHoras = 1;
+    }
+  }
+  
+  const bufferMin = 15; // 15 minutos entre citas
+  const totalMinPorSlot = duracionHoras * 60 + bufferMin;
+  
   const [startH, startM] = horario.inicio.split(':').map(Number);
   const [endH, endM] = horario.fin.split(':').map(Number);
   
-  for (let h = startH; h < endH; h++) {
+  const startTotalMin = startH * 60 + startM;
+  const endTotalMin = endH * 60 + endM;
+  
+  const slots = [];
+  // Generar slots cada 30 min (o según la duración)
+  const stepMin = Math.min(30, totalMinPorSlot);
+  
+  for (let min = startTotalMin; min + duracionHoras * 60 <= endTotalMin; min += stepMin) {
+    const h = Math.floor(min / 60);
+    const m = min % 60;
     const ampm = h >= 12 ? 'PM' : 'AM';
     const hour12 = h > 12 ? h - 12 : (h === 0 ? 12 : h);
-    slots.push(hour12 + ':00 ' + ampm);
+    const minStr = m === 0 ? '00' : String(m);
+    slots.push(hour12 + ':' + minStr + ' ' + ampm);
   }
   
   return slots;
@@ -374,14 +400,14 @@ export default function BookingWizard() {
             <div>
               <label className="text-sm font-medium text-gray-500 mb-2 block">Hora</label>
               <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
-                {(form.empleado && form.fecha ? getSlotsForEmpleado(form.empleado, form.fecha) : []).length === 0 && form.fecha && (
+                {(form.empleado && form.fecha ? getSlotsForEmpleado(form.empleado, form.fecha, form.servicio) : []).length === 0 && form.fecha && (
                   <p className="col-span-full text-center text-gray-400 py-4 text-sm">
                     {form.empleado
                       ? "El especialista no trabaja este día. Selecciona otra fecha."
                       : "Selecciona un especialista primero."}
                   </p>
                 )}
-                {(form.empleado && form.fecha ? getSlotsForEmpleado(form.empleado, form.fecha) : []).map((h) => (
+                {(form.empleado && form.fecha ? getSlotsForEmpleado(form.empleado, form.fecha, form.servicio) : []).map((h) => (
                   <button
                     key={h}
                     onClick={() => update("hora", h)}
