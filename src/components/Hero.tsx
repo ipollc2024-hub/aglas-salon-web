@@ -39,7 +39,7 @@ export default function Hero() {
         {/* Tag */}
         <div className="fade-in inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#C9A96E]/30 text-[#C9A96E] text-sm mb-8">
           <Sparkles size={14} />
-          <span>PUERTO RICO · EXCELENCIA ESTABLECIDA</span>
+          <span>PUERTO RICO · BELLEZA CON PROPÓSITO</span>
         </div>
 
         {/* Title */}
@@ -51,7 +51,7 @@ export default function Hero() {
 
         {/* Subtitle */}
         <p className="fade-in text-white/70 text-lg sm:text-xl max-w-2xl mx-auto mb-12 leading-relaxed">
-          Una experiencia de lujo en belleza y spa diseñada en Puerto Rico — donde la técnica
+          Belleza con propósito. Una experiencia de lujo en belleza y spa diseñada en Puerto Rico — donde la técnica
           moderna, los productos seleccionados y la elegancia se encuentran.
         </p>
 
