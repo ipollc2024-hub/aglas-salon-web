@@ -36,6 +36,13 @@ const galleryItems = [
   { category: "lashes", foto: "/galeria/pestañas-05.jpg" },
   { category: "lashes", foto: "/galeria/pestañas-06.jpg" },
   { category: "lashes", foto: "/galeria/pestañas-07.jpg" },
+  // Facial (6)
+  { category: "skin", foto: "/galeria/facial-01.jpg" },
+  { category: "skin", foto: "/galeria/facial-02.jpg" },
+  { category: "skin", foto: "/galeria/facial-03.jpg" },
+  { category: "skin", foto: "/galeria/facial-04.jpg" },
+  { category: "skin", foto: "/galeria/facial-05.jpg" },
+  { category: "skin", foto: "/galeria/facial-06.jpg" },
 ];
 
 export default function Galeria() {
