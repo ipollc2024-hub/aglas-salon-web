@@ -1,9 +1,19 @@
 "use client";
 
-import { useState, useCallback } from "react";
-import { Check, ChevronLeft, ChevronRight, Clock, DollarSign, Plus } from "lucide-react";
+import { useState } from "react";
+import { Check, ChevronLeft, ChevronRight, Clock, Plus } from "lucide-react";
 import { servicios, categorias } from "@/data/servicios";
 import { empleados } from "@/data/empleados";
+
+// Mapeo: categoría de servicio → especialidades que necesita la empleada
+const categoriaToEspecialidad: Record<string, string[]> = {
+  "Cabello": ["Corte", "Color", "Extensiones", "Trenzas", "Crochet", "Peinados", "Supervisión"],
+  "Uñas": ["Manicura", "Pedicura", "Supervisión"],
+  "Pestañas y Cejas": ["Pestañas", "Supervisión"],
+  "Faciales": ["Faciales", "Supervisión"],
+  "Masajes y Cuerpo": ["Masajes", "Reducción Corporal", "Reafirmante", "Maderoterapia", "Drenajes Linfáticos", "Aparatología", "Supervisión"],
+  "Depilación": ["Depilación", "Supervisión"],
+};
 
 const diasSemana = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
 
@@ -15,7 +25,7 @@ const getSlotsForEmpleado = (empleadoId: string, fecha: string) => {
   const dia = diasSemana[date.getDay()];
   const horario = emp.horario?.[dia];
   
-  if (!horario) return []; // Empleado no trabaja este día
+  if (!horario) return [];
   
   const slots = [];
   const [startH, startM] = horario.inicio.split(':').map(Number);
@@ -73,6 +83,30 @@ export default function BookingWizard() {
   const selectedServicio = servicios.find((s) => s.id === form.servicio);
   const selectedEmpleado = empleados.find((e) => e.id === form.empleado);
 
+  // Filtrar empleadas según servicio seleccionado
+  const empleadasFiltradas = form.servicio
+    ? empleados.filter((emp) => {
+        const servicioCat = selectedServicio?.categoria;
+        const especialidadesReq = servicioCat ? categoriaToEspecialidad[servicioCat] || [] : [];
+        return emp.especialidades.some((esp) => especialidadesReq.includes(esp));
+      })
+    : empleados;
+
+  // Si hay día seleccionado, filtrar también por día
+  const empleadasPorDia = form.fecha
+    ? empleadasFiltradas.filter((emp) => {
+        const date = new Date(form.fecha + 'T12:00:00');
+        const dia = diasSemana[date.getDay()];
+        return emp.horario?.[dia] !== null && emp.horario?.[dia] !== undefined;
+      })
+    : empleadasFiltradas;
+
+  // Resetear empleado si el seleccionado ya no está disponible
+  if (form.empleado && !empleadasPorDia.find((e) => e.id === form.empleado)) {
+    // Lo reseteamos en el próximo render
+    setTimeout(() => setForm((prev) => ({ ...prev, empleado: "", hora: "" })), 0);
+  }
+
   const update = (field: keyof FormData, value: string | string[]) =>
     setForm((prev) => ({ ...prev, [field]: value }));
 
@@ -109,6 +143,9 @@ export default function BookingWizard() {
   };
 
   const today = new Date().toISOString().split("T")[0];
+  
+  // Obtener el nombre de la categoría del servicio seleccionado
+  const servicioCategoria = selectedServicio?.categoria || "";
 
   if (confirmed) {
     return (
@@ -222,48 +259,72 @@ export default function BookingWizard() {
           <h3 className="font-playfair text-2xl font-bold text-[#1A1A1A] mb-6 text-center">
             Elige tu especialista
           </h3>
+          {selectedServicio && (
+            <div className="bg-[#FFF8F0] p-3 rounded-xl mb-4 text-sm text-center text-gray-600">
+              Servicio: <strong>{selectedServicio.nombre}</strong> ({servicioCategoria})
+            </div>
+          )}
           <div className="grid gap-4">
-            {empleados.map((emp) => (
-              <button
-                key={emp.id}
-                onClick={() => update("empleado", emp.id)}
-                className={`flex items-center gap-4 p-4 rounded-xl border transition-all ${
-                  form.empleado === emp.id
-                    ? "border-[#C9A96E] bg-[#FFF8F0]"
-                    : "border-gray-200 hover:border-gray-300"
-                }`}
-              >
-                <div className="w-14 h-14 rounded-full gradient-dark overflow-hidden shrink-0">
-                  <img
-                    src={emp.foto}
-                    alt={emp.nombre}
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      const target = e.target as HTMLElement;
-                      target.style.display = 'none';
-                      const parent = target.parentElement;
-                      if (parent) {
-                        const span = document.createElement('span');
-                        span.className = 'font-playfair text-lg text-[#C9A96E] font-bold flex items-center justify-center w-full h-full';
-                        span.textContent = `${emp.nombre.split(' ')[0][0]}${emp.nombre.split(' ')[1][0]}`;
-                        parent.appendChild(span);
-                      }
-                    }}
-                  />
-                </div>
-                <div className="text-left">
-                  <div className="font-medium text-sm text-[#1A1A1A]">{emp.nombre}</div>
-                  <div className="text-xs text-gray-400">{emp.rol}</div>
-                  <div className="flex flex-wrap gap-1 mt-1">
-                    {emp.especialidades.slice(0, 3).map((e) => (
-                      <span key={e} className="text-[10px] px-2 py-0.5 rounded-full bg-gray-100 text-gray-500">
-                        {e}
-                      </span>
-                    ))}
+            {empleadasFiltradas.length === 0 && (
+              <p className="text-center text-gray-400 py-8">No hay especialistas disponibles para este servicio.</p>
+            )}
+            {empleadasFiltradas.map((emp) => {
+              const disponibleHoy = form.fecha
+                ? (() => {
+                    const date = new Date(form.fecha + 'T12:00:00');
+                    const dia = diasSemana[date.getDay()];
+                    return emp.horario?.[dia] !== null && emp.horario?.[dia] !== undefined;
+                  })()
+                : true;
+
+              return (
+                <button
+                  key={emp.id}
+                  onClick={() => disponibleHoy && update("empleado", emp.id)}
+                  disabled={!disponibleHoy}
+                  className={`flex items-center gap-4 p-4 rounded-xl border transition-all ${
+                    !disponibleHoy
+                      ? "border-gray-100 bg-gray-50 opacity-50 cursor-not-allowed"
+                      : form.empleado === emp.id
+                      ? "border-[#C9A96E] bg-[#FFF8F0]"
+                      : "border-gray-200 hover:border-gray-300"
+                  }`}
+                >
+                  <div className="w-14 h-14 rounded-full gradient-dark overflow-hidden shrink-0">
+                    <img
+                      src={emp.foto}
+                      alt={emp.nombre}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        const target = e.target as HTMLElement;
+                        target.style.display = 'none';
+                        const parent = target.parentElement;
+                        if (parent) {
+                          const span = document.createElement('span');
+                          span.className = 'font-playfair text-lg text-[#C9A96E] font-bold flex items-center justify-center w-full h-full';
+                          span.textContent = `${emp.nombre.split(' ')[0][0]}${emp.nombre.split(' ')[1][0]}`;
+                          parent.appendChild(span);
+                        }
+                      }}
+                    />
                   </div>
-                </div>
-              </button>
-            ))}
+                  <div className="text-left flex-1">
+                    <div className="font-medium text-sm text-[#1A1A1A]">{emp.nombre}</div>
+                    <div className="text-xs text-gray-400">{emp.rol}</div>
+                    <div className="flex flex-wrap gap-1 mt-1">
+                      {emp.especialidades.slice(0, 3).map((e) => (
+                        <span key={e} className="text-[10px] px-2 py-0.5 rounded-full bg-gray-100 text-gray-500">
+                          {e}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  {!disponibleHoy && form.fecha && (
+                    <span className="text-xs text-red-400 font-medium">No disponible este día</span>
+                  )}
+                </button>
+              );
+            })}
           </div>
         </div>
       )}
@@ -274,6 +335,11 @@ export default function BookingWizard() {
           <h3 className="font-playfair text-2xl font-bold text-[#1A1A1A] mb-6 text-center">
             Elige fecha y hora
           </h3>
+          {selectedEmpleado && (
+            <div className="bg-[#FFF8F0] p-3 rounded-xl mb-4 text-sm text-center text-gray-600">
+              Especialista: <strong>{selectedEmpleado.nombre}</strong> — Servicio: <strong>{selectedServicio?.nombre}</strong>
+            </div>
+          )}
           <div className="space-y-4">
             <div>
               <label className="text-sm font-medium text-gray-500 mb-2 block">Fecha</label>
@@ -281,14 +347,21 @@ export default function BookingWizard() {
                 type="date"
                 min={today}
                 value={form.fecha}
-                onChange={(e) => update("fecha", e.target.value)}
+                onChange={(e) => { update("fecha", e.target.value); update("hora", ""); }}
                 className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#C9A96E] focus:ring-1 focus:ring-[#C9A96E] outline-none"
               />
             </div>
             <div>
               <label className="text-sm font-medium text-gray-500 mb-2 block">Hora</label>
               <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
-                {(form.empleado && form.fecha ? getSlotsForEmpleado(form.empleado, form.fecha) : ["9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM"]).map((h) => (
+                {(form.empleado && form.fecha ? getSlotsForEmpleado(form.empleado, form.fecha) : []).length === 0 && form.fecha && (
+                  <p className="col-span-full text-center text-gray-400 py-4 text-sm">
+                    {form.empleado
+                      ? "El especialista no trabaja este día. Selecciona otra fecha."
+                      : "Selecciona un especialista primero."}
+                  </p>
+                )}
+                {(form.empleado && form.fecha ? getSlotsForEmpleado(form.empleado, form.fecha) : []).map((h) => (
                   <button
                     key={h}
                     onClick={() => update("hora", h)}
