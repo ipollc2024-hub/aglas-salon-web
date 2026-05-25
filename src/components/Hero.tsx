@@ -39,20 +39,20 @@ export default function Hero() {
         {/* Tag */}
         <div className="fade-in inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#C9A96E]/30 text-[#C9A96E] text-sm mb-8">
           <Sparkles size={14} />
-          <span>PUERTO RICO · ESTABLISHED EXCELLENCE</span>
+          <span>PUERTO RICO · EXCELENCIA ESTABLECIDA</span>
         </div>
 
         {/* Title */}
         <h1 className="fade-in font-playfair text-5xl sm:text-6xl lg:text-8xl text-white font-bold leading-tight mb-6">
-          Real Beauty
+          La Belleza Real
           <br />
-          <span className="text-[#C9A96E]">Starts Here.</span>
+          <span className="text-[#C9A96E]">Empieza Aquí.</span>
         </h1>
 
         {/* Subtitle */}
         <p className="fade-in text-white/70 text-lg sm:text-xl max-w-2xl mx-auto mb-12 leading-relaxed">
-          A luxury beauty & spa experience crafted in Puerto Rico — where modern
-          technique, hand-picked products, and quiet elegance meet.
+          Una experiencia de lujo en belleza y spa diseñada en Puerto Rico — donde la técnica
+          moderna, los productos seleccionados y la elegancia se encuentran.
         </p>
 
         {/* CTA Buttons */}
@@ -61,14 +61,14 @@ export default function Hero() {
             href="/reservar"
             className="inline-flex items-center gap-2 bg-[#C9A96E] hover:bg-[#B8955A] text-white px-8 py-4 rounded-full text-base font-semibold transition-all hover:shadow-xl hover:shadow-[#C9A96E]/20"
           >
-            BOOK APPOINTMENT
+            RESERVAR CITA
             <ArrowRight size={18} />
           </a>
           <a
-            href="#servicios"
+            href="/#servicios"
             className="inline-flex items-center gap-2 border border-white/20 text-white/90 hover:border-[#C9A96E] hover:text-[#C9A96E] px-8 py-4 rounded-full text-base font-semibold transition-all"
           >
-            EXPLORE SERVICES
+            VER SERVICIOS
           </a>
         </div>
 
@@ -78,9 +78,9 @@ export default function Hero() {
           className="fade-in grid grid-cols-3 gap-8 max-w-2xl mx-auto"
         >
           {[
-            { number: "12K+", label: "HAPPY CLIENTS" },
-            { number: "15", label: "YEARS OF CRAFT" },
-            { number: "40K+", label: "SERVICES DELIVERED" },
+            { number: "12K+", label: "CLIENTAS FELICES" },
+            { number: "15", label: "AÑOS DE EXPERIENCIA" },
+            { number: "40K+", label: "SERVICIOS REALIZADOS" },
           ].map((stat) => (
             <div key={stat.label} className="text-center">
               <div className="font-playfair text-3xl lg:text-4xl text-white font-bold mb-1">

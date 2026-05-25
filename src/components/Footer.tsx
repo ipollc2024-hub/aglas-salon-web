@@ -7,19 +7,19 @@ export default function Footer() {
           <div className="md:col-span-1">
             <h3 className="font-playfair text-2xl text-white font-bold mb-4">AGLA&apos;S</h3>
             <p className="text-sm leading-relaxed">
-              A luxury beauty & spa experience crafted in Puerto Rico.
+              Una experiencia de lujo en belleza y spa diseñada en Puerto Rico.
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
             <h4 className="text-white text-sm font-semibold uppercase tracking-wider mb-4">
-              Explore
+              Navegación
             </h4>
             <ul className="space-y-2 text-sm">
-              {["Servicios", "Galería", "Equipo", "Membresías", "Contacto"].map((l) => (
+              {["Inicio", "Servicios", "Galería", "Equipo", "Membresías", "Contacto"].map((l) => (
                 <li key={l}>
-                  <a href={`#${l.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}`} className="hover:text-[#C9A96E] transition-colors">
+                  <a href={`/#${l.toLowerCase()}`} className="hover:text-[#C9A96E] transition-colors">
                     {l}
                   </a>
                 </li>
@@ -30,12 +30,12 @@ export default function Footer() {
           {/* Services */}
           <div>
             <h4 className="text-white text-sm font-semibold uppercase tracking-wider mb-4">
-              Services
+              Servicios
             </h4>
             <ul className="space-y-2 text-sm">
               {["Cabello", "Uñas", "Faciales", "Masajes", "Depilación"].map((s) => (
                 <li key={s}>
-                  <a href="#servicios" className="hover:text-[#C9A96E] transition-colors">
+                  <a href="/#servicios" className="hover:text-[#C9A96E] transition-colors">
                     {s}
                   </a>
                 </li>
@@ -46,7 +46,7 @@ export default function Footer() {
           {/* Contact */}
           <div>
             <h4 className="text-white text-sm font-semibold uppercase tracking-wider mb-4">
-              Connect
+              Contacto
             </h4>
             <ul className="space-y-2 text-sm">
               <li>
@@ -76,7 +76,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-white/10 mt-12 pt-8 text-center text-xs text-white/40">
-          <p>&copy; {new Date().getFullYear()} AGLA&apos;S Salón & Beauty Spa Clinic. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} AGLA&apos;S Salón & Beauty Spa Clinic. Todos los derechos reservados.</p>
         </div>
       </div>
     </footer>

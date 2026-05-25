@@ -13,18 +13,18 @@ export default function Equipo() {
         {/* Header */}
         <div className="text-center mb-16">
           <span className="text-[#C9A96E] text-sm tracking-[0.2em] font-medium uppercase">
-            The Atelier
+            Nuestro Equipo
           </span>
           <h2 className="font-playfair text-4xl lg:text-5xl text-[#1A1A1A] font-bold mt-4 mb-4">
-            Hands behind the glow.
+            Las manos detrás del brillo.
           </h2>
           <p className="text-gray-500 max-w-2xl mx-auto">
-            A small, senior team — chosen for craft, kindness and discretion.
+            Un equipo pequeño, senior y dedicado — elegido por su talento, calidez y profesionalismo.
           </p>
         </div>
 
         {/* Team Grid */}
-        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-5xl mx-auto">
           {empleados.map((emp) => (
             <div
               key={emp.id}
@@ -32,8 +32,8 @@ export default function Equipo() {
               className="group cursor-pointer text-center"
             >
               {/* Photo placeholder */}
-              <div className="relative w-48 h-48 mx-auto mb-6 rounded-full overflow-hidden gradient-dark flex items-center justify-center">
-                <span className="font-playfair text-5xl text-[#C9A96E] font-bold">
+              <div className="relative w-40 h-40 mx-auto mb-6 rounded-full overflow-hidden gradient-dark flex items-center justify-center">
+                <span className="font-playfair text-4xl text-[#C9A96E] font-bold">
                   {emp.nombre.split(" ")[0][0]}
                   {emp.nombre.split(" ")[1][0]}
                 </span>

@@ -29,10 +29,10 @@ export default function Testimonios() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <span className="text-[#C9A96E] text-sm tracking-[0.2em] font-medium uppercase">
-            Testimonials
+            Testimonios
           </span>
           <h2 className="font-playfair text-4xl lg:text-5xl text-[#1A1A1A] font-bold mt-4 mb-4">
-            What they say.
+            Lo que dicen ellas.
           </h2>
         </div>
 
@@ -42,7 +42,6 @@ export default function Testimonios() {
               key={idx}
               className="bg-white p-6 rounded-2xl border border-gray-100"
             >
-              {/* Stars */}
               <div className="flex gap-1 mb-4">
                 {Array.from({ length: t.rating }).map((_, i) => (
                   <Star key={i} size={16} className="text-[#C9A96E] fill-[#C9A96E]" />

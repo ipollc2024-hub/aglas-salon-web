@@ -4,12 +4,12 @@ import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 
 const links = [
-  { label: "Inicio", href: "#inicio" },
-  { label: "Servicios", href: "#servicios" },
-  { label: "Galería", href: "#galeria" },
-  { label: "Equipo", href: "#equipo" },
-  { label: "Membresías", href: "#membresias" },
-  { label: "Contacto", href: "#contacto" },
+  { label: "Inicio", href: "/" },
+  { label: "Servicios", href: "/#servicios" },
+  { label: "Galería", href: "/#galeria" },
+  { label: "Equipo", href: "/#equipo" },
+  { label: "Membresías", href: "/#membresias" },
+  { label: "Contacto", href: "/#contacto" },
 ];
 
 export default function Navbar() {
@@ -22,6 +22,21 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    setMobileOpen(false);
+    if (href.startsWith("/#")) {
+      e.preventDefault();
+      const id = href.substring(2);
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+        // If not on home page, go home with hash
+        window.location.href = href;
+      }
+    }
+  };
+
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -31,7 +46,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
-          <a href="#inicio" className="flex items-center gap-2">
+          <a href="/" className="flex items-center gap-2">
             <span
               className={`font-playfair text-xl lg:text-2xl font-bold tracking-wider ${
                 scrolled ? "text-[#1A1A1A]" : "text-white"
@@ -47,6 +62,7 @@ export default function Navbar() {
               <a
                 key={link.href}
                 href={link.href}
+                onClick={(e) => handleNavClick(e, link.href)}
                 className={`text-sm font-medium tracking-wide transition-colors hover:text-[#C9A96E] ${
                   scrolled ? "text-[#1A1A1A]" : "text-white/90"
                 }`}
@@ -80,7 +96,7 @@ export default function Navbar() {
               <a
                 key={link.href}
                 href={link.href}
-                onClick={() => setMobileOpen(false)}
+                onClick={(e) => handleNavClick(e, link.href)}
                 className="block text-sm font-medium text-[#1A1A1A] hover:text-[#C9A96E] py-2 transition-colors"
               >
                 {link.label}

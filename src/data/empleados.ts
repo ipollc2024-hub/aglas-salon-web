@@ -2,6 +2,19 @@ import { Empleado } from "@/lib/types";
 
 export const empleados: Empleado[] = [
   {
+    id: "aglaee",
+    nombre: "Aglaee Otero Cotto",
+    rol: "Supervisora y Propietaria",
+    foto: "/empleados/aglaee.jpg",
+    especialidades: ["Supervisión", "Gestión", "Calidad", "Atención al Cliente", "Coordinación"],
+    servicios: [
+      { nombre: "Supervisión de Servicios", duracion: "Todo el horario" },
+      { nombre: "Consultas Especiales", duracion: "Variable" },
+    ],
+    bio: "Supervisora y propietaria de AGLA'S Salón & Beauty Spa Clinic, dedicada a brindar la mejor experiencia de belleza y bienestar.",
+    experiencia: "10+ años"
+  },
+  {
     id: "isamary",
     nombre: "Isamary Castellano Ramos",
     rol: "Esteticista Profesional",

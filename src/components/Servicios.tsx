@@ -15,14 +15,13 @@ export default function Servicios() {
         {/* Header */}
         <div className="text-center mb-16">
           <span className="text-[#C9A96E] text-sm tracking-[0.2em] font-medium uppercase">
-            Our Services
+            Servicios
           </span>
           <h2 className="font-playfair text-4xl lg:text-5xl text-[#1A1A1A] font-bold mt-4 mb-4">
-            Curated rituals, elevated craft.
+            Rituales seleccionados, arte elevado.
           </h2>
           <p className="text-gray-500 max-w-2xl mx-auto">
-            From everyday glow-ups to once-in-a-lifetime moments, every service
-            is designed around you — with technique, time, and detail.
+            Desde el glow diario hasta momentos únicos, cada servicio está diseñado para ti — con técnica, tiempo y detalle.
           </p>
         </div>
 
@@ -78,7 +77,7 @@ export default function Servicios() {
                 href={`/reservar?servicio=${servicio.id}`}
                 className="inline-flex items-center gap-2 text-[#C9A96E] text-sm font-semibold hover:text-[#B8955A] transition-colors"
               >
-                BOOK <ArrowRight size={14} />
+                RESERVAR <ArrowRight size={14} />
               </a>
             </div>
           ))}

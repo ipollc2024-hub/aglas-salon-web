@@ -1,14 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { Sparkles, Scissors, Eye, Heart, Droplets, Wind } from "lucide-react";
+import { Sparkles, Scissors, Eye, Droplets, Wind } from "lucide-react";
 
 const filters = [
-  { label: "All", icon: null, category: "all" },
-  { label: "Hair", icon: Scissors, category: "hair" },
-  { label: "Nails", icon: Sparkles, category: "nails" },
-  { label: "Lashes", icon: Eye, category: "lashes" },
-  { label: "Skin", icon: Droplets, category: "skin" },
+  { label: "Todo", icon: null, category: "all" },
+  { label: "Cabello", icon: Scissors, category: "hair" },
+  { label: "Uñas", icon: Sparkles, category: "nails" },
+  { label: "Pestañas", icon: Eye, category: "lashes" },
+  { label: "Facial", icon: Droplets, category: "skin" },
   { label: "Spa", icon: Wind, category: "spa" },
 ];
 
@@ -35,13 +35,13 @@ export default function Galeria() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <span className="text-[#C9A96E] text-sm tracking-[0.2em] font-medium uppercase">
-            Gallery
+            Galería
           </span>
           <h2 className="font-playfair text-4xl lg:text-5xl text-[#1A1A1A] font-bold mt-4 mb-4">
-            Craft in frames.
+            Arte en cada detalle.
           </h2>
           <p className="text-gray-500 max-w-xl mx-auto">
-            A visual diary of our work — every detail intentional, every finish flawless.
+            Un diario visual de nuestro trabajo — cada detalle intencional, cada acabado impecable.
           </p>
         </div>
 
