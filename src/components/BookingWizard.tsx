@@ -92,8 +92,8 @@ export default function BookingWizard() {
       })
     : empleados;
 
-  // Si hay día seleccionado, filtrar también por día
-  const empleadasPorDia = form.fecha
+  // Empleadas que trabajan el día seleccionado (si hay fecha)
+  const empleadasDisponiblesHoy = form.fecha
     ? empleadasFiltradas.filter((emp) => {
         const date = new Date(form.fecha + 'T12:00:00');
         const dia = diasSemana[date.getDay()];
@@ -101,11 +101,13 @@ export default function BookingWizard() {
       })
     : empleadasFiltradas;
 
-  // Resetear empleado si el seleccionado ya no está disponible
-  if (form.empleado && !empleadasPorDia.find((e) => e.id === form.empleado)) {
-    // Lo reseteamos en el próximo render
-    setTimeout(() => setForm((prev) => ({ ...prev, empleado: "", hora: "" })), 0);
-  }
+  // Resetear empleado si el seleccionado ya no está disponible por día
+  const empleadoActualDisponible = form.empleado
+    ? empleadasDisponiblesHoy.some((e) => e.id === form.empleado)
+    : true;
+
+  // Mostrar las empleadas según contexto: en paso 1 mostramos filtradas por servicio
+  // pero si ya hay fecha, también filtramos por día para que el usuario vea disponibilidad
 
   const update = (field: keyof FormData, value: string | string[]) =>
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -269,21 +271,24 @@ export default function BookingWizard() {
               <p className="text-center text-gray-400 py-8">No hay especialistas disponibles para este servicio.</p>
             )}
             {empleadasFiltradas.map((emp) => {
-              const disponibleHoy = form.fecha
-                ? (() => {
-                    const date = new Date(form.fecha + 'T12:00:00');
-                    const dia = diasSemana[date.getDay()];
-                    return emp.horario?.[dia] !== null && emp.horario?.[dia] !== undefined;
-                  })()
-                : true;
+              // Verificar si trabaja hoy (solo si ya hay fecha)
+              const date = form.fecha ? new Date(form.fecha + 'T12:00:00') : null;
+              const dia = date ? diasSemana[date.getDay()] : null;
+              const trabajaHoy = dia ? emp.horario?.[dia] !== null && emp.horario?.[dia] !== undefined : true;
 
               return (
                 <button
                   key={emp.id}
-                  onClick={() => disponibleHoy && update("empleado", emp.id)}
-                  disabled={!disponibleHoy}
+                  onClick={() => {
+                    if (!trabajaHoy) return;
+                    update("empleado", emp.id);
+                    // Si ya hay fecha pero el empleado no trabaja, se resetea
+                    if (!trabajaHoy) {
+                      setForm((prev) => ({ ...prev, empleado: "", hora: "" }));
+                    }
+                  }}
                   className={`flex items-center gap-4 p-4 rounded-xl border transition-all ${
-                    !disponibleHoy
+                    !trabajaHoy
                       ? "border-gray-100 bg-gray-50 opacity-50 cursor-not-allowed"
                       : form.empleado === emp.id
                       ? "border-[#C9A96E] bg-[#FFF8F0]"
@@ -319,7 +324,7 @@ export default function BookingWizard() {
                       ))}
                     </div>
                   </div>
-                  {!disponibleHoy && form.fecha && (
+                  {!trabajaHoy && form.fecha && (
                     <span className="text-xs text-red-400 font-medium">No disponible este día</span>
                   )}
                 </button>
@@ -347,7 +352,22 @@ export default function BookingWizard() {
                 type="date"
                 min={today}
                 value={form.fecha}
-                onChange={(e) => { update("fecha", e.target.value); update("hora", ""); }}
+                onChange={(e) => {
+                    const newDate = e.target.value;
+                    setForm((prev) => {
+                      // Verificar si el empleado actual trabaja esta nueva fecha
+                      const date = new Date(newDate + 'T12:00:00');
+                      const dia = diasSemana[date.getDay()];
+                      const emp = empleados.find(em => em.id === prev.empleado);
+                      const trabaja = emp?.horario?.[dia] !== null && emp?.horario?.[dia] !== undefined;
+                      return {
+                        ...prev,
+                        fecha: newDate,
+                        hora: trabaja ? prev.hora : "",
+                        empleado: trabaja ? prev.empleado : "",
+                      };
+                    });
+                  }}
                 className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#C9A96E] focus:ring-1 focus:ring-[#C9A96E] outline-none"
               />
             </div>
