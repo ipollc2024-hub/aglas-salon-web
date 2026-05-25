@@ -13,37 +13,14 @@ const filters = [
 ];
 
 const galleryItems = [
-  { category: "hair", foto: "/galeria/servicio-01.jpg", label: "Balayage" },
-  { category: "hair", foto: "/galeria/servicio-02.jpg", label: "Color" },
-  { category: "hair", foto: "/galeria/servicio-03.jpg", label: "Peinado" },
-  { category: "hair", foto: "/galeria/servicio-04.jpg", label: "Trenzas" },
-  { category: "hair", foto: "/galeria/servicio-05.jpg", label: "Corte" },
-  { category: "hair", foto: "/galeria/servicio-06.jpg", label: "Crochet" },
-  { category: "hair", foto: "/galeria/servicio-07.jpg", label: "Extensiones" },
-  { category: "hair", foto: "/galeria/servicio-08.jpg", label: "Decoloración" },
-  { category: "nails", foto: "/galeria/servicio-09.jpg", label: "Manicura" },
-  { category: "nails", foto: "/galeria/servicio-10.jpg", label: "Pedicura" },
-  { category: "nails", foto: "/galeria/servicio-11.jpg", label: "Uñas Acrílicas" },
-  { category: "nails", foto: "/galeria/servicio-12.jpg", label: "Diseño" },
-  { category: "nails", foto: "/galeria/servicio-13.jpg", label: "Manicura" },
-  { category: "nails", foto: "/galeria/servicio-14.jpg", label: "Esmaltado" },
-  { category: "lashes", foto: "/galeria/servicio-15.jpg", label: "Extensiones" },
-  { category: "lashes", foto: "/galeria/servicio-16.jpg", label: "Pestañas" },
-  { category: "lashes", foto: "/galeria/servicio-17.jpg", label: "Lifting" },
-  { category: "skin", foto: "/galeria/servicio-18.jpg", label: "Limpieza Facial" },
-  { category: "skin", foto: "/galeria/servicio-19.jpg", label: "Dermaplaning" },
-  { category: "skin", foto: "/galeria/servicio-20.jpg", label: "Tratamiento" },
-  { category: "skin", foto: "/galeria/servicio-21.jpg", label: "Facial" },
-  { category: "skin", foto: "/galeria/servicio-22.jpg", label: "Mascarilla" },
-  { category: "spa", foto: "/galeria/servicio-23.jpg", label: "Masaje" },
-  { category: "spa", foto: "/galeria/servicio-24.jpg", label: "Maderoterapia" },
-  { category: "spa", foto: "/galeria/servicio-25.jpg", label: "Drenaje Linfático" },
-  { category: "spa", foto: "/galeria/servicio-26.jpg", label: "Corporal" },
-  { category: "spa", foto: "/galeria/servicio-27.jpg", label: "Aparatología" },
-  { category: "spa", foto: "/galeria/servicio-28.jpg", label: "Reducción" },
-  { category: "hair", foto: "/galeria/servicio-29.jpg", label: "Trenzas" },
-  { category: "hair", foto: "/galeria/servicio-30.jpg", label: "Peinado" },
-  { category: "nails", foto: "/galeria/servicio-31.jpg", label: "Uñas" },
+  { category: "hair", color: "from-amber-900 to-amber-700", label: "Balayage" },
+  { category: "hair", color: "from-stone-900 to-stone-600", label: "Corte" },
+  { category: "nails", color: "from-rose-300 to-rose-200", label: "Manicura" },
+  { category: "lashes", color: "from-gray-900 to-gray-700", label: "Pestañas" },
+  { category: "skin", color: "from-amber-100 to-amber-50", label: "Facial" },
+  { category: "spa", color: "from-emerald-900 to-emerald-700", label: "Masaje" },
+  { category: "hair", color: "from-stone-800 to-stone-500", label: "Trenzas" },
+  { category: "nails", color: "from-pink-400 to-pink-200", label: "Pedicura" },
 ];
 
 export default function Galeria() {
@@ -61,10 +38,10 @@ export default function Galeria() {
             Galería
           </span>
           <h2 className="font-playfair text-4xl lg:text-5xl text-[#1A1A1A] font-bold mt-4 mb-4">
-            Resultados Reales.
+            Próximamente.
           </h2>
           <p className="text-gray-500 max-w-xl mx-auto">
-            Un diario visual de nuestro trabajo — cada detalle intencional, cada acabado impecable.
+            Estamos llenando nuestra galería con fotos reales de nuestros servicios.
           </p>
         </div>
 
@@ -90,23 +67,18 @@ export default function Galeria() {
         </div>
 
         {/* Gallery Grid */}
-        <div className="columns-2 md:columns-4 gap-4 space-y-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {filtered.map((item, idx) => (
             <div
               key={idx}
-              className="break-inside-avoid rounded-2xl overflow-hidden group cursor-pointer relative"
+              className={`relative rounded-2xl overflow-hidden aspect-square bg-gradient-to-br ${item.color} flex items-center justify-center group cursor-pointer ${
+                idx === 0 ? "md:col-span-2 md:row-span-2" : ""
+              }`}
             >
-              <img
-                src={item.foto}
-                alt={item.label}
-                className="w-full object-cover group-hover:scale-105 transition-transform duration-500"
-                loading="lazy"
-              />
-              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all flex items-end p-4">
-                <span className="text-white text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
-                  {item.label}
-                </span>
-              </div>
+              <span className="font-playfair text-white/80 text-xl font-bold opacity-0 group-hover:opacity-100 transition-opacity">
+                {item.label}
+              </span>
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all" />
             </div>
           ))}
         </div>

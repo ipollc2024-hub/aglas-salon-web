@@ -18,7 +18,7 @@ export default function Servicios() {
             Servicios
           </span>
           <h2 className="font-playfair text-4xl lg:text-5xl text-[#1A1A1A] font-bold mt-4 mb-4">
-            Rituales seleccionados, arte elevado.
+            Descubre nuestros servicios.
           </h2>
           <p className="text-gray-500 max-w-2xl mx-auto">
             Desde el glow diario hasta momentos únicos, cada servicio está diseñado para ti — con técnica, tiempo y detalle.
