@@ -49,6 +49,14 @@ const galleryItems = [
   { category: "skin", foto: "/galeria/facial-04.jpg" },
   { category: "skin", foto: "/galeria/facial-05.jpg" },
   { category: "skin", foto: "/galeria/facial-06.jpg" },
+  // Cabello (7)
+  { category: "hair", foto: "/galeria/cabello-01.jpg" },
+  { category: "hair", foto: "/galeria/cabello-02.jpg" },
+  { category: "hair", foto: "/galeria/cabello-03.jpg" },
+  { category: "hair", foto: "/galeria/cabello-04.jpg" },
+  { category: "hair", foto: "/galeria/cabello-05.jpg" },
+  { category: "hair", foto: "/galeria/cabello-06.jpg" },
+  { category: "hair", foto: "/galeria/cabello-07.jpg" },
 ];
 
 export default function Galeria() {
