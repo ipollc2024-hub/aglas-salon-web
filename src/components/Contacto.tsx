@@ -23,7 +23,7 @@ export default function Contacto() {
               <div>
                 <h4 className="font-semibold text-[#1A1A1A] mb-1">Ubicación</h4>
                 <p className="text-gray-500 text-sm">
-                  Calle Vicente Muñoz Barrios (#17)<br />
+                  Calle Vicente Muñoz Barrio #40<br />
                   Cidra, PR 00739
                 </p>
               </div>
