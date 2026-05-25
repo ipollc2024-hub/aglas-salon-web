@@ -27,7 +27,6 @@ const galleryItems = [
   { category: "nails", foto: "/galeria/uñas-12.jpg" },
   { category: "nails", foto: "/galeria/uñas-13.jpg" },
   { category: "nails", foto: "/galeria/uñas-14.jpg" },
-  { category: "nails", foto: "/galeria/uñas-15.jpg" },
 ];
 
 export default function Galeria() {
