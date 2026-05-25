@@ -26,13 +26,13 @@ export default function Testimonios() {
           </h2>
         </div>
 
-        <div className="columns-2 md:columns-3 gap-4 space-y-4 max-w-5xl mx-auto">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 max-w-6xl mx-auto">
           {fotos.map((foto, idx) => (
-            <div key={idx} className="break-inside-avoid rounded-2xl overflow-hidden">
+            <div key={idx} className="rounded-xl overflow-hidden">
               <img
                 src={foto}
-                alt={`Reseña de clienta`}
-                className="w-full h-auto"
+                alt="Reseña"
+                className="w-full h-auto block"
                 loading="lazy"
               />
             </div>
