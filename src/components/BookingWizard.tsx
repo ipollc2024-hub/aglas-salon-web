@@ -89,6 +89,7 @@ type FormData = {
   email: string;
   metodoPago: "ath" | "tarjeta" | null;
   upsells: string[];
+  comprobante: File | null;
 };
 
 export default function BookingWizard() {
@@ -103,6 +104,7 @@ export default function BookingWizard() {
     email: "",
     metodoPago: null,
     upsells: [],
+    comprobante: null,
   });
   const [confirmed, setConfirmed] = useState(false);
 
@@ -543,7 +545,7 @@ export default function BookingWizard() {
             </div>
           )}
 
-          <div className="space-y-3">
+          <div className="space-y-3 mb-6">
             <button
               onClick={() => update("metodoPago", "ath")}
               className={`w-full flex items-center justify-between p-4 rounded-xl border text-left transition-all ${
@@ -558,6 +560,52 @@ export default function BookingWizard() {
               </div>
               <div className="text-xs font-bold text-[#C9A96E]">RECOMENDADO</div>
             </button>
+
+            {form.metodoPago === "ath" && (
+              <div className="bg-[#FFF8F0] rounded-xl p-5 border border-[#C9A96E]/30 space-y-4">
+                <div>
+                  <p className="font-medium text-sm text-[#1A1A1A] mb-2">Paga con ATH Móvil Business</p>
+                  <p className="text-xs text-gray-500 mb-1">Transfiere el total a este número:</p>
+                  <p className="text-lg font-bold text-[#C9A96E]">(787) 907-8229</p>
+                  <p className="text-xs text-gray-400 mt-1">AGLA&apos;S SALÓN &amp; BEAUTY SPA CLINIC</p>
+                </div>
+                <div className="border-t border-[#C9A96E]/20 pt-4">
+                  <p className="font-medium text-sm text-[#1A1A1A] mb-2">Sube tu comprobante de pago</p>
+                  <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-[#C9A96E] transition-colors bg-white">
+                    {form.comprobante ? (
+                      <div className="text-center p-2">
+                        <Check size={24} className="text-green-500 mx-auto mb-1" />
+                        <p className="text-xs text-gray-500">{form.comprobante.name}</p>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setForm((prev) => ({ ...prev, comprobante: null }));
+                          }}
+                          className="text-[10px] text-red-400 hover:text-red-600 mt-1"
+                        >
+                          Quitar
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="text-center">
+                        <Plus size={28} className="text-gray-300 mx-auto mb-1" />
+                        <p className="text-xs text-gray-400">Toca para subir captura</p>
+                        <p className="text-[10px] text-gray-300 mt-1">JPG, PNG</p>
+                      </div>
+                    )}
+                    <input
+                      type="file"
+                      accept="image/jpeg,image/png"
+                      className="hidden"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) setForm((prev) => ({ ...prev, comprobante: file }));
+                      }}
+                    />
+                  </label>
+                </div>
+              </div>
+            )}
 
             <button
               onClick={() => update("metodoPago", "tarjeta")}
