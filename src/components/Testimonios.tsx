@@ -7,29 +7,20 @@ interface Review {
   nombre: string;
   texto: string;
   rating: number;
-  tipo: string;
-  foto?: string;
+  foto: string;
 }
 
 const reviews: Review[] = [
-  {
-    nombre: "María Rodríguez",
-    texto: "¡El mejor salón de Cidra! Desde que fui la primera vez no he ido a otro lugar. Isamary hace magia con los faciales y el ambiente es súper relajante.",
-    rating: 5,
-    tipo: "Facial",
-  },
-  {
-    nombre: "Ana G.",
-    texto: "Ericson es un artista con el cabello. Me hizo un balayage espectacular y mi pelo quedó súper saludable. 100% recomendado.",
-    rating: 5,
-    tipo: "Cabello",
-  },
-  {
-    nombre: "Laura M.",
-    texto: "Las uñas me quedaron preciosas y la pedicura spa es otro nivel. El lugar es hermoso, se siente como un spa de verdad.",
-    rating: 5,
-    tipo: "Uñas",
-  },
+  { nombre: "Clienta", texto: "Excelente servicio, súper recomendado. Salí hermosa 💕", rating: 5, foto: "/resenas/review-09.jpg" },
+  { nombre: "Clienta", texto: "Me encantó el resultado. Volveré sin duda.", rating: 5, foto: "/resenas/review-10.jpg" },
+  { nombre: "Clienta", texto: "Atención increíble y un trabajo espectacular. 10/10.", rating: 5, foto: "/resenas/review-11.jpg" },
+  { nombre: "Clienta", texto: "Salió mejor de lo que esperaba. Muy feliz con el servicio.", rating: 5, foto: "/resenas/review-12.jpg" },
+  { nombre: "Clienta", texto: "Mano firme y detalles hermosos. Quedé enamorada.", rating: 5, foto: "/resenas/review-13.jpg" },
+  { nombre: "Clienta", texto: "Súper profesional y el ambiente bien relajante. Me encantó.", rating: 5, foto: "/resenas/review-14.jpg" },
+  { nombre: "Clienta", texto: "Resultado hermoso y atención de primera. Recomendado 100%.", rating: 5, foto: "/resenas/review-15.jpg" },
+  { nombre: "Clienta", texto: "Quedé fascinada con el trabajo. Gracias por tanto talento.", rating: 5, foto: "/resenas/review-16.jpg" },
+  { nombre: "Clienta", texto: "Me sentí como en casa. Servicio de calidad y detalle único.", rating: 5, foto: "/resenas/review-17.jpg" },
+  { nombre: "Clienta", texto: "Hermoso trabajo, superó mis expectativas. Repetiré pronto.", rating: 5, foto: "/resenas/review-18.jpg" },
 ];
 
 export default function Testimonios() {
@@ -51,7 +42,6 @@ export default function Testimonios() {
             </p>
           </div>
 
-          {/* Reviews Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {reviews.map((r, idx) => (
               <div
@@ -59,23 +49,14 @@ export default function Testimonios() {
                 className="bg-white rounded-2xl border border-gray-100 overflow-hidden group cursor-pointer hover:shadow-lg transition-all"
                 onClick={() => setSelectedReview(r)}
               >
-                {/* Foto del resultado */}
-                <div className="aspect-[4/3] bg-gradient-to-br from-gray-200 to-gray-100 flex items-center justify-center overflow-hidden">
-                  {r.foto ? (
-                    <img
-                      src={r.foto}
-                      alt={r.nombre}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  ) : (
-                    <div className="text-center p-4">
-                      <Star size={32} className="text-[#C9A96E] mx-auto mb-2" />
-                      <span className="text-gray-400 text-sm">Foto próximamente</span>
-                    </div>
-                  )}
+                <div className="aspect-[4/3] bg-gray-100 overflow-hidden">
+                  <img
+                    src={r.foto}
+                    alt={`Reseña de ${r.nombre}`}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    loading="lazy"
+                  />
                 </div>
-
-                {/* Info */}
                 <div className="p-5">
                   <div className="flex gap-1 mb-3">
                     {Array.from({ length: r.rating }).map((_, i) => (
@@ -85,10 +66,7 @@ export default function Testimonios() {
                   <p className="text-gray-600 text-sm leading-relaxed mb-4 italic line-clamp-3">
                     &ldquo;{r.texto}&rdquo;
                   </p>
-                  <div className="flex items-center justify-between">
-                    <span className="font-semibold text-sm text-[#1A1A1A]">{r.nombre}</span>
-                    <span className="text-xs text-gray-400 bg-gray-50 px-2 py-1 rounded-full">{r.tipo}</span>
-                  </div>
+                  <span className="font-semibold text-sm text-[#1A1A1A]">{r.nombre}</span>
                 </div>
               </div>
             ))}
@@ -96,7 +74,7 @@ export default function Testimonios() {
         </div>
       </section>
 
-      {/* Modal de review */}
+      {/* Modal */}
       {selectedReview && (
         <div
           className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4"
@@ -106,15 +84,13 @@ export default function Testimonios() {
             className="bg-white rounded-2xl max-w-lg w-full overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
-            {selectedReview.foto && (
-              <div className="aspect-[4/3] bg-gray-100">
-                <img
-                  src={selectedReview.foto}
-                  alt={selectedReview.nombre}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            )}
+            <div className="aspect-[4/3] bg-gray-100">
+              <img
+                src={selectedReview.foto}
+                alt={`Reseña de ${selectedReview.nombre}`}
+                className="w-full h-full object-cover"
+              />
+            </div>
             <div className="p-6">
               <div className="flex gap-1 mb-3">
                 {Array.from({ length: selectedReview.rating }).map((_, i) => (
@@ -124,10 +100,7 @@ export default function Testimonios() {
               <p className="text-gray-700 leading-relaxed mb-4">
                 &ldquo;{selectedReview.texto}&rdquo;
               </p>
-              <div className="flex items-center justify-between">
-                <span className="font-semibold text-[#1A1A1A]">{selectedReview.nombre}</span>
-                <span className="text-xs text-gray-400 bg-gray-50 px-3 py-1 rounded-full">{selectedReview.tipo}</span>
-              </div>
+              <span className="font-semibold text-[#1A1A1A]">{selectedReview.nombre}</span>
               <button
                 onClick={() => setSelectedReview(null)}
                 className="mt-6 w-full py-2 bg-[#1A1A1A] text-white rounded-xl text-sm hover:bg-[#2A2A2A] transition-colors"
