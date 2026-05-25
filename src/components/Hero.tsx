@@ -44,14 +44,14 @@ export default function Hero() {
 
         {/* Title */}
         <h1 className="fade-in font-playfair text-5xl sm:text-6xl lg:text-8xl text-white font-bold leading-tight mb-6">
-          La Belleza Real
+          Donde la Belleza Real
           <br />
           <span className="text-[#C9A96E]">Empieza Aquí.</span>
         </h1>
 
         {/* Subtitle */}
         <p className="fade-in text-white/70 text-lg sm:text-xl max-w-2xl mx-auto mb-12 leading-relaxed">
-          Belleza con propósito. Una experiencia de lujo en belleza y spa diseñada en Puerto Rico — donde la técnica
+          Belleza con Propósito. Una experiencia de lujo en belleza y spa diseñada en Puerto Rico — donde la técnica
           moderna, los productos seleccionados y la elegancia se encuentran.
         </p>
 
