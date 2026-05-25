@@ -29,9 +29,8 @@ const getSlotsForEmpleado = (empleadoId: string, fecha: string, servicioId: stri
   if (!horario) return [];
   
   // Calcular la duración del servicio en horas
-  let duracionHoras = 1; // default 1 hora
+  let duracionHoras = 1;
   if (svc?.duracion) {
-    // Extraer números de la duración (ej: "30-45 min" → 1, "2-3 h" → 3, "3 - 4h" → 4)
     const match = svc.duracion.match(/(\d+)\s*(?:-\s*(\d+))?\s*(min|h)/i);
     if (match) {
       const num2 = match[2] ? parseInt(match[2]) : parseInt(match[1]);
@@ -41,9 +40,7 @@ const getSlotsForEmpleado = (empleadoId: string, fecha: string, servicioId: stri
     }
   }
   
-  const bufferMin = 15; // 15 minutos entre citas
-  const totalMinPorSlot = duracionHoras * 60 + bufferMin;
-  
+  const bufferMin = 15;
   const [startH, startM] = horario.inicio.split(':').map(Number);
   const [endH, endM] = horario.fin.split(':').map(Number);
   
@@ -51,8 +48,7 @@ const getSlotsForEmpleado = (empleadoId: string, fecha: string, servicioId: stri
   const endTotalMin = endH * 60 + endM;
   
   const slots = [];
-  // Generar slots cada 30 min (o según la duración)
-  const stepMin = Math.min(30, totalMinPorSlot);
+  const stepMin = 30;
   
   for (let min = startTotalMin; min + duracionHoras * 60 <= endTotalMin; min += stepMin) {
     const h = Math.floor(min / 60);
@@ -68,16 +64,14 @@ const getSlotsForEmpleado = (empleadoId: string, fecha: string, servicioId: stri
 
 const steps = ["Servicio", "Empleada", "Fecha & Hora", "Tus Datos", "Pago"];
 
-const upsells: Record<string, { id: string; nombre: string; precio: number; descripcion: string }[]> = {
-  default: [
-    { id: "express-facial", nombre: "Facial Express 15min", precio: 25, descripcion: "Limpieza rápida + hidratación" },
-    { id: "masaje-cuello", nombre: "Masaje de Cuello y Hombros 10min", precio: 20, descripcion: "Relajación adicional" },
-    { id: "brillo-labial", nombre: "Brillo Labial Profesional", precio: 15, descripcion: "Hidratación y brillo natural" },
-    { id: "exfoliacion-manos", nombre: "Exfoliación de Manos", precio: 18, descripcion: "Suavidad y renovación" },
-    { id: "mascarilla-capilar", nombre: "Mascarilla Capilar Express", precio: 22, descripcion: "Hidratación intensiva" },
-    { id: "aromatherapy", nombre: "Aromaterapia (Difusor + Aceite)", precio: 12, descripcion: "Experiencia sensorial adicional" },
-  ],
-};
+const upsellsList = [
+  { id: "express-facial", nombre: "Facial Express 15min", precio: 25, descripcion: "Limpieza rápida + hidratación" },
+  { id: "masaje-cuello", nombre: "Masaje de Cuello y Hombros 10min", precio: 20, descripcion: "Relajación adicional" },
+  { id: "brillo-labial", nombre: "Brillo Labial Profesional", precio: 15, descripcion: "Hidratación y brillo natural" },
+  { id: "exfoliacion-manos", nombre: "Exfoliación de Manos", precio: 18, descripcion: "Suavidad y renovación" },
+  { id: "mascarilla-capilar", nombre: "Mascarilla Capilar Express", precio: 22, descripcion: "Hidratación intensiva" },
+  { id: "aromatherapy", nombre: "Aromaterapia (Difusor + Aceite)", precio: 12, descripcion: "Experiencia sensorial adicional" },
+];
 
 type FormData = {
   servicio: string;
@@ -107,11 +101,11 @@ export default function BookingWizard() {
     comprobante: null,
   });
   const [confirmed, setConfirmed] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   const selectedServicio = servicios.find((s) => s.id === form.servicio);
   const selectedEmpleado = empleados.find((e) => e.id === form.empleado);
 
-  // Filtrar empleadas según servicio seleccionado
   const empleadasFiltradas = form.servicio
     ? empleados.filter((emp) => {
         const servicioCat = selectedServicio?.categoria;
@@ -119,23 +113,6 @@ export default function BookingWizard() {
         return emp.especialidades.some((esp) => especialidadesReq.includes(esp));
       })
     : empleados;
-
-  // Empleadas que trabajan el día seleccionado (si hay fecha)
-  const empleadasDisponiblesHoy = form.fecha
-    ? empleadasFiltradas.filter((emp) => {
-        const date = new Date(form.fecha + 'T12:00:00');
-        const dia = diasSemana[date.getDay()];
-        return emp.horario?.[dia] !== null && emp.horario?.[dia] !== undefined;
-      })
-    : empleadasFiltradas;
-
-  // Resetear empleado si el seleccionado ya no está disponible por día
-  const empleadoActualDisponible = form.empleado
-    ? empleadasDisponiblesHoy.some((e) => e.id === form.empleado)
-    : true;
-
-  // Mostrar las empleadas según contexto: en paso 1 mostramos filtradas por servicio
-  // pero si ya hay fecha, también filtramos por día para que el usuario vea disponibilidad
 
   const update = (field: keyof FormData, value: string | string[]) =>
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -149,7 +126,7 @@ export default function BookingWizard() {
     }));
   };
 
-  const selectedUpsells = (upsells.default || []).filter((u) => form.upsells.includes(u.id));
+  const selectedUpsells = upsellsList.filter((u) => form.upsells.includes(u.id));
   const upsellsTotal = selectedUpsells.reduce((sum, u) => sum + u.precio, 0);
   const servicioTotal = selectedServicio ? selectedServicio.precioDesde : 0;
   const grandTotal = servicioTotal + upsellsTotal;
@@ -168,13 +145,43 @@ export default function BookingWizard() {
     }
   };
 
-  const handleConfirm = () => {
-    setConfirmed(true);
+  const handleConfirm = async () => {
+    setSubmitting(true);
+    try {
+      // Enviar la reserva al backend
+      const res = await fetch("/api/reservar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          servicio: selectedServicio?.nombre,
+          servicioId: form.servicio,
+          empleado: selectedEmpleado?.nombre,
+          empleadoId: form.empleado,
+          fecha: form.fecha,
+          hora: form.hora,
+          nombre: form.nombre,
+          telefono: form.telefono,
+          email: form.email,
+          metodoPago: form.metodoPago,
+          upsells: selectedUpsells.map((u) => u.nombre),
+          total: grandTotal,
+          categoria: selectedServicio?.categoria,
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Error al enviar la reserva");
+      }
+
+      setConfirmed(true);
+    } catch (err) {
+      alert("Hubo un error al procesar tu reserva. Por favor intenta de nuevo o llámanos al (787) 907-8229.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const today = new Date().toISOString().split("T")[0];
-  
-  // Obtener el nombre de la categoría del servicio seleccionado
   const servicioCategoria = selectedServicio?.categoria || "";
 
   if (confirmed) {
@@ -186,8 +193,11 @@ export default function BookingWizard() {
         <h2 className="font-playfair text-3xl font-bold text-[#1A1A1A] mb-4">
           ¡Reserva Confirmada!
         </h2>
-        <p className="text-gray-500 mb-8">
-          Te hemos enviado un resumen a <strong>{form.email}</strong>. Te contactaremos para confirmar los detalles.
+        <p className="text-gray-500 mb-4">
+          Te hemos enviado un resumen a <strong>{form.email}</strong>.
+        </p>
+        <p className="text-gray-400 text-sm mb-8">
+          {selectedEmpleado?.nombre} ha sido notificada y te estará esperando.
         </p>
         <div className="bg-gray-50 rounded-2xl p-6 text-left mb-8">
           <div className="space-y-3">
@@ -299,7 +309,6 @@ export default function BookingWizard() {
               <p className="text-center text-gray-400 py-8">No hay especialistas disponibles para este servicio.</p>
             )}
             {empleadasFiltradas.map((emp) => {
-              // Verificar si trabaja hoy (solo si ya hay fecha)
               const date = form.fecha ? new Date(form.fecha + 'T12:00:00') : null;
               const dia = date ? diasSemana[date.getDay()] : null;
               const trabajaHoy = dia ? emp.horario?.[dia] !== null && emp.horario?.[dia] !== undefined : true;
@@ -310,10 +319,6 @@ export default function BookingWizard() {
                   onClick={() => {
                     if (!trabajaHoy) return;
                     update("empleado", emp.id);
-                    // Si ya hay fecha pero el empleado no trabaja, se resetea
-                    if (!trabajaHoy) {
-                      setForm((prev) => ({ ...prev, empleado: "", hora: "" }));
-                    }
                   }}
                   className={`flex items-center gap-4 p-4 rounded-xl border transition-all ${
                     !trabajaHoy
@@ -383,7 +388,6 @@ export default function BookingWizard() {
                 onChange={(e) => {
                     const newDate = e.target.value;
                     setForm((prev) => {
-                      // Verificar si el empleado actual trabaja esta nueva fecha
                       const date = new Date(newDate + 'T12:00:00');
                       const dia = diasSemana[date.getDay()];
                       const emp = empleados.find(em => em.id === prev.empleado);
@@ -466,7 +470,7 @@ export default function BookingWizard() {
             </div>
             <p className="text-xs text-gray-400 mb-4">Agrega mini servicios para complementar tu tratamiento principal.</p>
             <div className="grid gap-2">
-              {(upsells.default || []).map((u) => (
+              {upsellsList.map((u) => (
                 <button
                   key={u.id}
                   onClick={() => toggleUpsell(u.id)}
@@ -648,10 +652,10 @@ export default function BookingWizard() {
         ) : (
           <button
             onClick={handleConfirm}
-            disabled={!canProceed()}
+            disabled={!canProceed() || submitting}
             className="bg-[#C9A96E] hover:bg-[#B8955A] disabled:bg-gray-300 disabled:cursor-not-allowed text-white px-8 py-3 rounded-full text-sm font-semibold transition-all"
           >
-            CONFIRMAR RESERVA
+            {submitting ? "ENVIANDO..." : "CONFIRMAR RESERVA"}
           </button>
         )}
       </div>
