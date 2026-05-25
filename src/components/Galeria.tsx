@@ -18,6 +18,16 @@ const galleryItems = [
   { category: "nails", foto: "/galeria/uñas-03.jpg" },
   { category: "nails", foto: "/galeria/uñas-04.jpg" },
   { category: "nails", foto: "/galeria/uñas-05.jpg" },
+  { category: "nails", foto: "/galeria/uñas-06.jpg" },
+  { category: "nails", foto: "/galeria/uñas-07.jpg" },
+  { category: "nails", foto: "/galeria/uñas-08.jpg" },
+  { category: "nails", foto: "/galeria/uñas-09.jpg" },
+  { category: "nails", foto: "/galeria/uñas-10.jpg" },
+  { category: "nails", foto: "/galeria/uñas-11.jpg" },
+  { category: "nails", foto: "/galeria/uñas-12.jpg" },
+  { category: "nails", foto: "/galeria/uñas-13.jpg" },
+  { category: "nails", foto: "/galeria/uñas-14.jpg" },
+  { category: "nails", foto: "/galeria/uñas-15.jpg" },
 ];
 
 export default function Galeria() {
