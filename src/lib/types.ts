@@ -9,6 +9,11 @@ export interface Servicio {
   depositoPorcentaje: number;
 }
 
+export interface HorarioDia {
+  inicio: string;
+  fin: string;
+}
+
 export interface Empleado {
   id: string;
   nombre: string;
@@ -18,6 +23,7 @@ export interface Empleado {
   servicios: { nombre: string; duracion: string }[];
   bio: string;
   experiencia: string;
+  horario: Record<string, HorarioDia | null>;
 }
 
 export interface Membresia {
@@ -52,9 +58,4 @@ export interface Cita {
   comprobanteUrl?: string;
   notas?: string;
   createdAt: string;
-}
-
-export interface NotionConfig {
-  apiKey: string;
-  databaseId: string;
 }

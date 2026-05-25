@@ -5,6 +5,31 @@ import { Check, ChevronLeft, ChevronRight, Clock, DollarSign, Plus } from "lucid
 import { servicios, categorias } from "@/data/servicios";
 import { empleados } from "@/data/empleados";
 
+const diasSemana = ["domingo", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"];
+
+const getSlotsForEmpleado = (empleadoId: string, fecha: string) => {
+  const emp = empleados.find(e => e.id === empleadoId);
+  if (!emp || !fecha) return [];
+  
+  const date = new Date(fecha + 'T12:00:00');
+  const dia = diasSemana[date.getDay()];
+  const horario = emp.horario?.[dia];
+  
+  if (!horario) return []; // Empleado no trabaja este día
+  
+  const slots = [];
+  const [startH, startM] = horario.inicio.split(':').map(Number);
+  const [endH, endM] = horario.fin.split(':').map(Number);
+  
+  for (let h = startH; h < endH; h++) {
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    const hour12 = h > 12 ? h - 12 : (h === 0 ? 12 : h);
+    slots.push(hour12 + ':00 ' + ampm);
+  }
+  
+  return slots;
+};
+
 const steps = ["Servicio", "Empleada", "Fecha & Hora", "Tus Datos", "Pago"];
 
 const upsells: Record<string, { id: string; nombre: string; precio: number; descripcion: string }[]> = {
@@ -263,7 +288,7 @@ export default function BookingWizard() {
             <div>
               <label className="text-sm font-medium text-gray-500 mb-2 block">Hora</label>
               <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
-                {["9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM"].map((h) => (
+                {(form.empleado && form.fecha ? getSlotsForEmpleado(form.empleado, form.fecha) : ["9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM"]).map((h) => (
                   <button
                     key={h}
                     onClick={() => update("hora", h)}

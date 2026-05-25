@@ -12,7 +12,16 @@ export const empleados: Empleado[] = [
       { nombre: "Consultas Especiales", duracion: "Variable" },
     ],
     bio: "Supervisora y propietaria de AGLA'S Salón & Beauty Spa Clinic, dedicada a brindar la mejor experiencia de belleza y bienestar.",
-    experiencia: "10+ años"
+    experiencia: "10+ años",
+    horario: {
+      lunes: { inicio: "10:00", fin: "19:00" },
+      martes: { inicio: "10:00", fin: "19:00" },
+      miercoles: null, // Cerrado
+      jueves: { inicio: "10:00", fin: "19:00" },
+      viernes: { inicio: "10:00", fin: "19:00" },
+      sabado: { inicio: "10:00", fin: "19:00" },
+      domingo: null, // Cerrado
+    }
   },
   {
     id: "isamary",
@@ -33,7 +42,16 @@ export const empleados: Empleado[] = [
       { nombre: "Depilación Cera/Láser", duracion: "Variable" },
     ],
     bio: "Especialista en tratamientos faciales y corporales con amplia experiencia en maderoterapia y drenajes linfáticos.",
-    experiencia: "5+ años"
+    experiencia: "5+ años",
+    horario: {
+      lunes: { inicio: "10:00", fin: "19:00" },
+      martes: { inicio: "10:00", fin: "19:00" },
+      miercoles: null,
+      jueves: { inicio: "10:00", fin: "19:00" },
+      viernes: { inicio: "10:00", fin: "19:00" },
+      sabado: { inicio: "10:00", fin: "19:00" },
+      domingo: null,
+    }
   },
   {
     id: "gleris",
@@ -47,7 +65,16 @@ export const empleados: Empleado[] = [
       { nombre: "Extensiones de Pestañas", duracion: "3 - 4h" },
     ],
     bio: "Experta en pedicura y faciales, con especialidad en extensiones de pestañas de alta duración.",
-    experiencia: "3+ años"
+    experiencia: "3+ años",
+    horario: {
+      lunes: null,
+      martes: { inicio: "10:00", fin: "19:00" },
+      miercoles: null,
+      jueves: null,
+      viernes: { inicio: "10:00", fin: "19:00" },
+      sabado: { inicio: "10:00", fin: "19:00" },
+      domingo: null,
+    }
   },
   {
     id: "ericson",
@@ -65,6 +92,15 @@ export const empleados: Empleado[] = [
       { nombre: "Crochet", duracion: "2 - 3h" },
     ],
     bio: "Especialista en todo tipo de cabello, desde cortes clásicos hasta transformaciones completas con extensiones y trenzas.",
-    experiencia: "7+ años"
+    experiencia: "7+ años",
+    horario: {
+      lunes: null,
+      martes: null,
+      miercoles: null,
+      jueves: null,
+      viernes: null,
+      sabado: { inicio: "12:00", fin: "19:00" },
+      domingo: null,
+    }
   }
 ];
