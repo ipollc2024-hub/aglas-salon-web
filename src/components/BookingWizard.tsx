@@ -208,11 +208,23 @@ export default function BookingWizard() {
                     : "border-gray-200 hover:border-gray-300"
                 }`}
               >
-                <div className="w-14 h-14 rounded-full gradient-dark flex items-center justify-center shrink-0">
-                  <span className="font-playfair text-lg text-[#C9A96E] font-bold">
-                    {emp.nombre.split(" ")[0][0]}
-                    {emp.nombre.split(" ")[1][0]}
-                  </span>
+                <div className="w-14 h-14 rounded-full gradient-dark overflow-hidden shrink-0">
+                  <img
+                    src={emp.foto}
+                    alt={emp.nombre}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      const target = e.target as HTMLElement;
+                      target.style.display = 'none';
+                      const parent = target.parentElement;
+                      if (parent) {
+                        const span = document.createElement('span');
+                        span.className = 'font-playfair text-lg text-[#C9A96E] font-bold flex items-center justify-center w-full h-full';
+                        span.textContent = `${emp.nombre.split(' ')[0][0]}${emp.nombre.split(' ')[1][0]}`;
+                        parent.appendChild(span);
+                      }
+                    }}
+                  />
                 </div>
                 <div className="text-left">
                   <div className="font-medium text-sm text-[#1A1A1A]">{emp.nombre}</div>

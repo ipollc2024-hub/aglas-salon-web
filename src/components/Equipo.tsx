@@ -31,12 +31,25 @@ export default function Equipo() {
               onClick={() => setSelected(emp)}
               className="group cursor-pointer text-center"
             >
-              {/* Photo placeholder */}
-              <div className="relative w-40 h-40 mx-auto mb-6 rounded-full overflow-hidden gradient-dark flex items-center justify-center">
-                <span className="font-playfair text-4xl text-[#C9A96E] font-bold">
-                  {emp.nombre.split(" ")[0][0]}
-                  {emp.nombre.split(" ")[1][0]}
-                </span>
+              {/* Photo */}
+              <div className="relative w-40 h-40 mx-auto mb-6 rounded-full overflow-hidden gradient-dark">
+                <img
+                  src={emp.foto}
+                  alt={emp.nombre}
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    // Fallback to initials if image fails
+                    const target = e.target as HTMLElement;
+                    target.style.display = 'none';
+                    const parent = target.parentElement;
+                    if (parent) {
+                      const span = document.createElement('span');
+                      span.className = 'font-playfair text-4xl text-[#C9A96E] font-bold flex items-center justify-center w-full h-full';
+                      span.textContent = `${emp.nombre.split(' ')[0][0]}${emp.nombre.split(' ')[1][0]}`;
+                      parent.appendChild(span);
+                    }
+                  }}
+                />
               </div>
 
               <h3 className="font-playfair text-xl font-bold text-[#1A1A1A] mb-1">
@@ -83,11 +96,23 @@ export default function Equipo() {
             </button>
 
             <div className="text-center mb-6">
-              <div className="w-20 h-20 mx-auto mb-4 rounded-full gradient-dark flex items-center justify-center">
-                <span className="font-playfair text-2xl text-[#C9A96E] font-bold">
-                  {selected.nombre.split(" ")[0][0]}
-                  {selected.nombre.split(" ")[1][0]}
-                </span>
+              <div className="w-20 h-20 mx-auto mb-4 rounded-full gradient-dark overflow-hidden">
+                <img
+                  src={selected.foto}
+                  alt={selected.nombre}
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    const target = e.target as HTMLElement;
+                    target.style.display = 'none';
+                    const parent = target.parentElement;
+                    if (parent) {
+                      const span = document.createElement('span');
+                      span.className = 'font-playfair text-2xl text-[#C9A96E] font-bold flex items-center justify-center w-full h-full';
+                      span.textContent = `${selected.nombre.split(' ')[0][0]}${selected.nombre.split(' ')[1][0]}`;
+                      parent.appendChild(span);
+                    }
+                  }}
+                />
               </div>
               <h3 className="font-playfair text-xl font-bold">{selected.nombre}</h3>
               <p className="text-[#C9A96E] text-sm">{selected.rol}</p>
