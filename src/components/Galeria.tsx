@@ -13,6 +13,7 @@ const filters = [
 ];
 
 const galleryItems = [
+  // Uñas (14)
   { category: "nails", foto: "/galeria/uñas-01.jpg" },
   { category: "nails", foto: "/galeria/uñas-02.jpg" },
   { category: "nails", foto: "/galeria/uñas-03.jpg" },
@@ -27,6 +28,14 @@ const galleryItems = [
   { category: "nails", foto: "/galeria/uñas-12.jpg" },
   { category: "nails", foto: "/galeria/uñas-13.jpg" },
   { category: "nails", foto: "/galeria/uñas-14.jpg" },
+  // Pestañas (7)
+  { category: "lashes", foto: "/galeria/pestañas-01.jpg" },
+  { category: "lashes", foto: "/galeria/pestañas-02.jpg" },
+  { category: "lashes", foto: "/galeria/pestañas-03.jpg" },
+  { category: "lashes", foto: "/galeria/pestañas-04.jpg" },
+  { category: "lashes", foto: "/galeria/pestañas-05.jpg" },
+  { category: "lashes", foto: "/galeria/pestañas-06.jpg" },
+  { category: "lashes", foto: "/galeria/pestañas-07.jpg" },
 ];
 
 export default function Galeria() {
