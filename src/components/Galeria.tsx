@@ -13,14 +13,11 @@ const filters = [
 ];
 
 const galleryItems = [
-  { category: "hair", color: "from-amber-900 to-amber-700", label: "Balayage" },
-  { category: "hair", color: "from-stone-900 to-stone-600", label: "Corte" },
-  { category: "nails", color: "from-rose-300 to-rose-200", label: "Manicura" },
-  { category: "lashes", color: "from-gray-900 to-gray-700", label: "Pestañas" },
-  { category: "skin", color: "from-amber-100 to-amber-50", label: "Facial" },
-  { category: "spa", color: "from-emerald-900 to-emerald-700", label: "Masaje" },
-  { category: "hair", color: "from-stone-800 to-stone-500", label: "Trenzas" },
-  { category: "nails", color: "from-pink-400 to-pink-200", label: "Pedicura" },
+  { category: "nails", foto: "/galeria/uñas-01.jpg" },
+  { category: "nails", foto: "/galeria/uñas-02.jpg" },
+  { category: "nails", foto: "/galeria/uñas-03.jpg" },
+  { category: "nails", foto: "/galeria/uñas-04.jpg" },
+  { category: "nails", foto: "/galeria/uñas-05.jpg" },
 ];
 
 export default function Galeria() {
@@ -38,10 +35,10 @@ export default function Galeria() {
             Galería
           </span>
           <h2 className="font-playfair text-4xl lg:text-5xl text-[#1A1A1A] font-bold mt-4 mb-4">
-            Próximamente.
+            Nuestro trabajo.
           </h2>
           <p className="text-gray-500 max-w-xl mx-auto">
-            Estamos llenando nuestra galería con fotos reales de nuestros servicios.
+            Fotos reales de servicios realizados en AGLA&apos;S.
           </p>
         </div>
 
@@ -67,18 +64,15 @@ export default function Galeria() {
         </div>
 
         {/* Gallery Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="columns-2 md:columns-3 lg:columns-4 gap-3 space-y-3">
           {filtered.map((item, idx) => (
-            <div
-              key={idx}
-              className={`relative rounded-2xl overflow-hidden aspect-square bg-gradient-to-br ${item.color} flex items-center justify-center group cursor-pointer ${
-                idx === 0 ? "md:col-span-2 md:row-span-2" : ""
-              }`}
-            >
-              <span className="font-playfair text-white/80 text-xl font-bold opacity-0 group-hover:opacity-100 transition-opacity">
-                {item.label}
-              </span>
-              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all" />
+            <div key={idx} className="break-inside-avoid rounded-2xl overflow-hidden">
+              <img
+                src={item.foto}
+                alt="Servicio"
+                className="w-full h-auto block"
+                loading="lazy"
+              />
             </div>
           ))}
         </div>
