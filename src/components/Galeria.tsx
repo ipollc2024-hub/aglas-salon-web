@@ -28,6 +28,12 @@ const galleryItems = [
   { category: "nails", foto: "/galeria/uñas-12.jpg" },
   { category: "nails", foto: "/galeria/uñas-13.jpg" },
   { category: "nails", foto: "/galeria/uñas-14.jpg" },
+  { category: "nails", foto: "/galeria/uñas-15.jpg" },
+  { category: "nails", foto: "/galeria/uñas-16.jpg" },
+  { category: "nails", foto: "/galeria/uñas-17.jpg" },
+  { category: "nails", foto: "/galeria/uñas-18.jpg" },
+  { category: "nails", foto: "/galeria/uñas-19.jpg" },
+  { category: "nails", foto: "/galeria/uñas-20.jpg" },
   // Pestañas (7)
   { category: "lashes", foto: "/galeria/pestañas-01.jpg" },
   { category: "lashes", foto: "/galeria/pestañas-02.jpg" },
