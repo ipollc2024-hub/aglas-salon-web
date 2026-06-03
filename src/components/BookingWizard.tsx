@@ -1,9 +1,13 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { Check, ChevronLeft, ChevronRight, Clock, Plus, X, Info } from "lucide-react";
+import { Check, ChevronLeft, ChevronRight, Clock, Plus, X, Info, CreditCard, Smartphone } from "lucide-react";
 import { servicios, categorias } from "@/data/servicios";
 import { empleados } from "@/data/empleados";
+import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY || "");
 
 // --- helpers ---
 function parseMin(duracion: string): number {
@@ -579,9 +583,17 @@ export default function BookingWizard() {
               className={`w-full flex items-center justify-between p-4 rounded-xl border text-left transition-all ${f.metodoPago==="tarjeta"?"border-[#C9A96E] bg-[#FFF8F0]":"border-gray-200 hover:border-gray-300"}`}>
               <div>
                 <div className="font-medium text-sm text-[#1A1A1A]">Tarjeta de Crédito/Débito</div>
-                <div className="text-xs text-gray-400 mt-1">Pago seguro con Stripe</div>
+                <div className="text-xs text-gray-400 mt-1">Pago seguro con tarjeta vía Stripe</div>
               </div>
             </button>
+
+            {f.metodoPago==="tarjeta" && (
+              <div className="bg-white rounded-xl p-5 border border-gray-200 space-y-4">
+                <Elements stripe={stripePromise}>
+                  <StripePayForm total={grandTotal} nombre={f.nombre} email={f.email} onConfirm={() => confirm()} />
+                </Elements>
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -606,6 +618,69 @@ export default function BookingWizard() {
           </button>
         )}
       </div>
+    </div>
+  );
+}
+
+function StripePayForm({ total, nombre, email, onConfirm }: { total: number; nombre: string; email: string; onConfirm: () => void }) {
+  const stripe = useStripe();
+  const elements = useElements();
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const handlePay = async () => {
+    if (!stripe || !elements) return;
+    setLoading(true);
+    setErrorMsg("");
+
+    try {
+      // Crear PaymentIntent
+      const res = await fetch("/api/crear-pago-intent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ total, nombre, email }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Error al conectar con Stripe");
+
+      const { error, paymentIntent } = await stripe.confirmCardPayment(data.clientSecret, {
+        payment_method: { card: elements.getElement(CardElement)! },
+      });
+
+      if (error) {
+        setErrorMsg(error.message || "Error al procesar el pago");
+      } else if (paymentIntent?.status === "succeeded") {
+        onConfirm();
+      }
+    } catch (err: any) {
+      setErrorMsg(err.message || "Error de conexión");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div>
+      <div className="mb-4">
+        <p className="text-xs text-gray-500 mb-3">Datos de tarjeta:</p>
+        <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
+          <CardElement options={{
+            style: {
+              base: { fontSize: "16px", color: "#1A1A1A", fontFamily: "Montserrat, sans-serif", "::placeholder": { color: "#a0aec0" } },
+              invalid: { color: "#e53e3e" },
+            },
+          }} />
+        </div>
+      </div>
+      {errorMsg && <p className="text-red-500 text-xs mb-3">{errorMsg}</p>}
+      <button
+        onClick={handlePay}
+        disabled={!stripe || loading}
+        className="w-full bg-[#C9A96E] hover:bg-[#B8955A] disabled:bg-gray-300 disabled:cursor-not-allowed text-white py-3 rounded-full text-sm font-semibold transition-all"
+      >
+        {loading ? "PROCESANDO PAGO..." : `Pagar $${total} con Tarjeta`}
+      </button>
+      <p className="text-[10px] text-gray-400 text-center mt-2">🔒 Pago seguro. No almacenamos datos de tarjeta.</p>
     </div>
   );
 }
