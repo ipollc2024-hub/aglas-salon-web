@@ -70,6 +70,8 @@ export const servicios: Servicio[] = [
   { id: "depilacion-piernas-cera", nombre: "Depilación Piernas Completas (Cera)", descripcion: "Depilación de piernas completas con cera", precioDesde: 85, duracion: "30-45 min", categoria: "Depilación", depositoPorcentaje: 20 },
   { id: "depilacion-bikini", nombre: "Depilación Bikini (Cera)", descripcion: "Depilación de línea de bikini con cera", precioDesde: 85, duracion: "20-30 min", categoria: "Depilación", depositoPorcentaje: 20 },
   { id: "depilacion-bikini-completo", nombre: "Depilación Bikini Completo (Cera)", descripcion: "Depilación de bikini completo con cera", precioDesde: 120, duracion: "30-45 min", categoria: "Depilación", depositoPorcentaje: 20 },
+  // PRUEBA
+  { id: "prueba-1", nombre: "Producto de Prueba ($1)", descripcion: "Servicio de prueba para verificar pagos con tarjeta", precioDesde: 1, duracion: "5-10 min", categoria: "Depilación", depositoPorcentaje: 0 },
 ];
 
 export const categorias = ["Cabello", "Uñas", "Pestañas y Cejas", "Faciales", "Masajes y Cuerpo", "Depilación"];

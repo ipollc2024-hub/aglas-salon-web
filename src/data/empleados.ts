@@ -6,7 +6,7 @@ export const empleados: Empleado[] = [
     nombre: "Aglaee Otero Cotto",
     rol: "Supervisora y Propietaria",
     foto: "/empleados/aglaee.jpg",
-    especialidades: ["Supervisión", "Gestión", "Calidad", "Atención al Cliente", "Coordinación"],
+    especialidades: ["Supervisión", "Gestión", "Calidad", "Atención al Cliente", "Coordinación", "Depilación"],
     servicios: [
       { nombre: "Supervisión de Servicios", duracion: "Todo el horario" },
       { nombre: "Consultas Especiales", duracion: "Variable" },
