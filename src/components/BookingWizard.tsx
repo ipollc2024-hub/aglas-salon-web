@@ -208,10 +208,12 @@ export default function BookingWizard() {
           categorias: [...new Set(selSvcs.map(s=>s.categoria))],
         }),
       });
-      if (!r.ok) throw Error();
+      const result = await r.json();
+      if (!r.ok) throw new Error(result.error || "Error");
       setConfirmed(true);
-    } catch {
-      alert("Error al procesar tu reserva. Llámanos al (787) 907-8229.");
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "";
+      alert(msg ? `Error: ${msg}` : "Error al procesar tu reserva. Llámanos al (787) 907-8229.");
     } finally { setSubmitting(false); }
   };
 
