@@ -26,17 +26,23 @@ interface ReservaData {
   estado: "pendiente";
 }
 
-async function guardarReserva(reserva: ReservaData): Promise<void> {
-  await fs.mkdir(DATA_DIR, { recursive: true });
-  let reservas: ReservaData[] = [];
+async function guardarReserva(reserva: ReservaData): Promise<boolean> {
   try {
-    const raw = await fs.readFile(RESERVAS_FILE, "utf-8");
-    reservas = JSON.parse(raw);
-  } catch {
-    reservas = [];
+    await fs.mkdir(DATA_DIR, { recursive: true });
+    let reservas: ReservaData[] = [];
+    try {
+      const raw = await fs.readFile(RESERVAS_FILE, "utf-8");
+      reservas = JSON.parse(raw);
+    } catch {
+      reservas = [];
+    }
+    reservas.push(reserva);
+    await fs.writeFile(RESERVAS_FILE, JSON.stringify(reservas, null, 2), "utf-8");
+    return true;
+  } catch (e) {
+    console.error("Error guardando reserva local:", e);
+    return false;
   }
-  reservas.push(reserva);
-  await fs.writeFile(RESERVAS_FILE, JSON.stringify(reservas, null, 2), "utf-8");
 }
 
 async function notificarDiscord(data: ReservaData): Promise<boolean> {
@@ -122,8 +128,8 @@ export async function POST(request: NextRequest) {
       estado: "pendiente",
     };
 
-    // Guardar en archivo local
-    await guardarReserva(reserva);
+    // Guardar en archivo local (puede fallar en Vercel, no es crítico)
+    const guardadoOk = await guardarReserva(reserva);
 
     // Notificar a Discord (si configurado) — no bloquea la respuesta
     const discordOk = await notificarDiscord(reserva);
