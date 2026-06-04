@@ -628,17 +628,20 @@ function StripePayForm({ total, nombre, email, onConfirm }: { total: number; nom
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
+  const deposito = Math.round(total * 0.2); // 20% depósito
+  const restante = total - deposito;
+
   const handlePay = async () => {
     if (!stripe || !elements) return;
     setLoading(true);
     setErrorMsg("");
 
     try {
-      // Crear PaymentIntent
+      // Crear PaymentIntent con solo el 20%
       const res = await fetch("/api/crear-pago-intent", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ total, nombre, email }),
+        body: JSON.stringify({ total: deposito, nombre, email }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Error al conectar con Stripe");
@@ -661,6 +664,20 @@ function StripePayForm({ total, nombre, email, onConfirm }: { total: number; nom
 
   return (
     <div>
+      <div className="bg-[#FFF8F0] rounded-xl p-4 border border-[#C9A96E]/30 mb-4">
+        <div className="flex justify-between text-sm mb-2">
+          <span className="text-gray-500">Total del servicio</span>
+          <span className="font-medium">${total}</span>
+        </div>
+        <div className="flex justify-between text-sm mb-2">
+          <span className="text-gray-500">Depósito (20%)</span>
+          <span className="font-medium text-[#C9A96E]">${deposito}</span>
+        </div>
+        <div className="flex justify-between text-xs text-gray-400 pt-2 border-t border-[#C9A96E]/20">
+          <span>Restante a pagar en el salón</span>
+          <span>${restante}</span>
+        </div>
+      </div>
       <div className="mb-4">
         <p className="text-xs text-gray-500 mb-3">Datos de tarjeta:</p>
         <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
@@ -678,9 +695,9 @@ function StripePayForm({ total, nombre, email, onConfirm }: { total: number; nom
         disabled={!stripe || loading}
         className="w-full bg-[#C9A96E] hover:bg-[#B8955A] disabled:bg-gray-300 disabled:cursor-not-allowed text-white py-3 rounded-full text-sm font-semibold transition-all"
       >
-        {loading ? "PROCESANDO PAGO..." : `Pagar $${total} con Tarjeta`}
+        {loading ? "PROCESANDO PAGO..." : `Pagar Depósito $${deposito} con Tarjeta`}
       </button>
-      <p className="text-[10px] text-gray-400 text-center mt-2">🔒 Pago seguro. No almacenamos datos de tarjeta.</p>
+      <p className="text-[10px] text-gray-400 text-center mt-2">🔒 Pago seguro. Solo pagas el 20% de depósito.</p>
     </div>
   );
 }
