@@ -65,6 +65,7 @@ const galleryItems = [
   // Drenajes, maderoterapia y tratamientos corporales
   { category: "body", foto: "/galeria/cuerpo-01.jpg" },
   { category: "body", foto: "/galeria/cuerpo-02.jpg" },
+  { category: "body", foto: "/galeria/cuerpo-03.jpg" },
   // Depilación láser y con cera
   { category: "hair-removal", foto: "/galeria/depilacion-laser-01.png" },
   { category: "hair-removal", foto: "/galeria/depilacion-cera-01.png" },
