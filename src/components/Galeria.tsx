@@ -72,6 +72,7 @@ const galleryItems = [
   { category: "videos", video: "/videos/tratamiento-pies.mp4" },
   { category: "videos", video: "/videos/pedicura-nueva-01.mp4" },
   { category: "videos", video: "/videos/pedicura-nueva-02.mp4" },
+  { category: "videos", video: "/videos/pedicura-nueva-03.mp4" },
   { category: "videos", video: "/videos/cabello-rubio.mp4" },
   { category: "videos", video: "/videos/corte-bob.mp4" },
 ];
