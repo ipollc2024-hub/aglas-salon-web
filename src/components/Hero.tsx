@@ -44,15 +44,16 @@ export default function Hero() {
 
         {/* Title */}
         <h1 className="fade-in font-playfair text-5xl sm:text-6xl lg:text-8xl text-white font-bold leading-tight mb-6">
-          Donde la Belleza Real
+          Realza tu belleza.
           <br />
-          <span className="text-[#C9A96E]">Empieza Aquí.</span>
+          <span className="text-[#C9A96E]">Vive la experiencia Agla’s.</span>
         </h1>
 
         {/* Subtitle */}
         <p className="fade-in text-white/70 text-lg sm:text-xl max-w-2xl mx-auto mb-12 leading-relaxed">
-          Belleza con Propósito. Una experiencia de lujo en belleza y spa diseñada en Puerto Rico — donde la técnica
-          moderna, los productos seleccionados y la elegancia se encuentran.
+          Cabello, uñas, pedicuras y manicuras, faciales, spa, pestañas, tratamientos corporales,
+          maderoterapia, drenajes linfáticos, depilación láser y con cera, aparatología y más; con
+          atención personalizada y más de 25 años de experiencia. Tu bienestar comienza aquí.
         </p>
 
         {/* CTA Buttons */}
