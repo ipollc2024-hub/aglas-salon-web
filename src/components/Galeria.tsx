@@ -66,6 +66,7 @@ const galleryItems = [
   { category: "body", foto: "/galeria/cuerpo-01.jpg" },
   { category: "body", foto: "/galeria/cuerpo-02.jpg" },
   { category: "body", foto: "/galeria/cuerpo-03.jpg" },
+  { category: "body", foto: "/galeria/cuerpo-04.jpg" },
   { category: "body", video: "/videos/maderoterapia-corporal.mp4" },
   // Depilación láser y con cera
   { category: "hair-removal", foto: "/galeria/depilacion-laser-01.png" },
