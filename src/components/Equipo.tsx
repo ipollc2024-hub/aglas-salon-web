@@ -19,7 +19,7 @@ export default function Equipo() {
             Las manos detrás del brillo.
           </h2>
           <p className="text-gray-500 max-w-2xl mx-auto">
-            Un equipo pequeño, senior y dedicado — elegido por su talento, calidez y profesionalismo.
+            Un equipo dedicado, elegido por su talento, calidez y profesionalismo.
           </p>
         </div>
 
@@ -33,21 +33,16 @@ export default function Equipo() {
             >
               {/* Photo */}
               <div className="relative w-40 h-40 mx-auto mb-6 rounded-full overflow-hidden gradient-dark">
+                <span className="absolute inset-0 font-playfair text-4xl text-[#C9A96E] font-bold flex items-center justify-center">
+                  {emp.nombre.split(" ").slice(0, 2).map((parte) => parte[0]).join("")}
+                </span>
                 <img
                   src={emp.foto}
                   alt={emp.nombre}
-                  className="w-full h-full object-cover"
+                  className="relative z-10 w-full h-full object-cover"
                   onError={(e) => {
-                    // Fallback to initials if image fails
                     const target = e.target as HTMLElement;
                     target.style.display = 'none';
-                    const parent = target.parentElement;
-                    if (parent) {
-                      const span = document.createElement('span');
-                      span.className = 'font-playfair text-4xl text-[#C9A96E] font-bold flex items-center justify-center w-full h-full';
-                      span.textContent = `${emp.nombre.split(' ')[0][0]}${emp.nombre.split(' ')[1][0]}`;
-                      parent.appendChild(span);
-                    }
                   }}
                 />
               </div>
@@ -56,7 +51,9 @@ export default function Equipo() {
                 {emp.nombre}
               </h3>
               <p className="text-[#C9A96E] text-sm font-medium mb-3">{emp.rol}</p>
-              <p className="text-gray-400 text-xs mb-4">{emp.experiencia} de experiencia</p>
+              {emp.experiencia && (
+                <p className="text-gray-400 text-xs mb-4">{emp.experiencia} de experiencia</p>
+              )}
 
               <div className="flex flex-wrap justify-center gap-2">
                 {emp.especialidades.slice(0, 3).map((esp) => (
@@ -97,20 +94,16 @@ export default function Equipo() {
 
             <div className="text-center mb-6">
               <div className="w-20 h-20 mx-auto mb-4 rounded-full gradient-dark overflow-hidden">
+                <span className="absolute font-playfair text-2xl text-[#C9A96E] font-bold flex items-center justify-center w-20 h-20">
+                  {selected.nombre.split(" ").slice(0, 2).map((parte) => parte[0]).join("")}
+                </span>
                 <img
                   src={selected.foto}
                   alt={selected.nombre}
-                  className="w-full h-full object-cover"
+                  className="relative z-10 w-full h-full object-cover"
                   onError={(e) => {
                     const target = e.target as HTMLElement;
                     target.style.display = 'none';
-                    const parent = target.parentElement;
-                    if (parent) {
-                      const span = document.createElement('span');
-                      span.className = 'font-playfair text-2xl text-[#C9A96E] font-bold flex items-center justify-center w-full h-full';
-                      span.textContent = `${selected.nombre.split(' ')[0][0]}${selected.nombre.split(' ')[1][0]}`;
-                      parent.appendChild(span);
-                    }
                   }}
                 />
               </div>

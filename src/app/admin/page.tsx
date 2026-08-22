@@ -6,7 +6,7 @@ import { Calendar, DollarSign, User, Check, X, Clock } from "lucide-react";
 // Mock data — will connect to Notion later
 const mockCitas = [
   { id: "1", cliente: "María Rodríguez", servicio: "Balayage / Iluminaciones", empleado: "Ericson Gonzalez", fecha: "2026-05-25", hora: "10:00 AM", estado: "pendiente", metodoPago: "ath", depositoPagado: false, montoDeposito: 26 },
-  { id: "2", cliente: "Ana G.", servicio: "Limpieza Facial Profunda", empleado: "Isamary Castellano Ramos", fecha: "2026-05-25", hora: "2:00 PM", estado: "confirmada", metodoPago: "tarjeta", depositoPagado: true, montoDeposito: 13 },
+  { id: "2", cliente: "Ana G.", servicio: "Facial Profundo", empleado: "Gleris Pereira Otero", fecha: "2026-05-25", hora: "2:00 PM", estado: "confirmada", metodoPago: "tarjeta", depositoPagado: true, montoDeposito: 10 },
   { id: "3", cliente: "Laura M.", servicio: "Pedicura Spa", empleado: "Gleris Pereira Otero", fecha: "2026-05-26", hora: "11:00 AM", estado: "pendiente", metodoPago: "ath", depositoPagado: true, montoDeposito: 13 },
 ];
 

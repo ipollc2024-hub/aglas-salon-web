@@ -50,12 +50,13 @@ function hrsDisp(empId: string, fecha: string): number {
 }
 
 const catToEsp: Record<string,string[]> = {
-  "Cabello":["Corte","Color","Extensiones","Trenzas","Crochet","Peinados","Supervisión"],
-  "Uñas":["Manicura","Pedicura","Supervisión"],
-  "Pestañas y Cejas":["Pestañas","Supervisión"],
-  "Faciales":["Faciales","Supervisión"],
-  "Masajes y Cuerpo":["Masajes","Reducción Corporal","Reafirmante","Maderoterapia","Drenajes Linfáticos","Aparatología","Supervisión"],
-  "Depilación":["Depilación","Supervisión"],
+  "Cabello":["Cabello","Corte","Color","Extensiones","Trenzas","Peinados"],
+  "Uñas":["Uñas","Manicura"],
+  "Pedicura":["Pedicura","Uñas"],
+  "Pestañas y Cejas":["Pestañas"],
+  "Faciales":["Faciales"],
+  "Masajes y Cuerpo":["Masajes","Corporales","Maderoterapia","Drenajes Linfáticos"],
+  "Depilación":["Depilación","Depilación láser","Depilación con cera"],
 };
 
 const diaN = ["domingo","lunes","martes","miercoles","jueves","viernes","sabado"];
@@ -116,7 +117,7 @@ export default function BookingWizard() {
   const empsFilt = f.servicios.length > 0
     ? empleados.filter(emp => {
         const cats = [...new Set(selSvcs.map(s => s.categoria))];
-        return cats.every(c => (catToEsp[c]||[]).some(esp => emp.especialidades.includes(esp)));
+        return emp.id === "aglaee" || cats.every(c => (catToEsp[c]||[]).some(esp => emp.especialidades.includes(esp)));
       })
     : empleados;
 
@@ -314,7 +315,7 @@ export default function BookingWizard() {
                             </div>
                           </div>
                           <div className="text-right">
-                            <div className="font-bold text-[#C9A96E]">${s.precioDesde}</div>
+                            <div className="font-bold text-[#C9A96E]">{s.precioDesde === 0 ? "Evaluación" : `$${s.precioDesde}`}</div>
                             {s.depositoPorcentaje>0 && <div className="text-xs text-gray-400">dep. ${Math.round(s.precioDesde*s.depositoPorcentaje/100)}</div>}
                           </div>
                         </button>
@@ -628,7 +629,7 @@ function StripePayForm({ total, nombre, email, onConfirm }: { total: number; nom
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
-  const deposito = Math.round(total * 0.2); // 20% depósito
+  const deposito = Math.round(total * 0.15); // 15% depósito
   const restante = total - deposito;
 
   const handlePay = async () => {
@@ -637,7 +638,7 @@ function StripePayForm({ total, nombre, email, onConfirm }: { total: number; nom
     setErrorMsg("");
 
     try {
-      // Crear PaymentIntent con solo el 20%
+      // Crear PaymentIntent con solo el 15%
       const res = await fetch("/api/crear-pago-intent", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -670,7 +671,7 @@ function StripePayForm({ total, nombre, email, onConfirm }: { total: number; nom
           <span className="font-medium">${total}</span>
         </div>
         <div className="flex justify-between text-sm mb-2">
-          <span className="text-gray-500">Depósito (20%)</span>
+          <span className="text-gray-500">Depósito (15%)</span>
           <span className="font-medium text-[#C9A96E]">${deposito}</span>
         </div>
         <div className="flex justify-between text-xs text-gray-400 pt-2 border-t border-[#C9A96E]/20">
@@ -697,7 +698,7 @@ function StripePayForm({ total, nombre, email, onConfirm }: { total: number; nom
       >
         {loading ? "PROCESANDO PAGO..." : `Pagar Depósito $${deposito} con Tarjeta`}
       </button>
-      <p className="text-[10px] text-gray-400 text-center mt-2">🔒 Pago seguro. Solo pagas el 20% de depósito.</p>
+      <p className="text-[10px] text-gray-400 text-center mt-2">🔒 Pago seguro. Solo paga el 15% de depósito.</p>
     </div>
   );
 }

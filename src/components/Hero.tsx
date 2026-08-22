@@ -79,7 +79,7 @@ export default function Hero() {
         >
           {[
             { number: "12K+", label: "CLIENTAS FELICES" },
-            { number: "15", label: "AÑOS DE EXPERIENCIA" },
+            { number: "25+", label: "AÑOS DE EXPERIENCIA" },
             { number: "40K+", label: "SERVICIOS REALIZADOS" },
           ].map((stat) => (
             <div key={stat.label} className="text-center">

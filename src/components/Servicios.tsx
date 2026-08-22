@@ -54,7 +54,7 @@ export default function Servicios() {
                   {servicio.nombre}
                 </h3>
                 <div className="gradient-gold text-white text-sm font-bold px-3 py-1 rounded-full">
-                  ${servicio.precioDesde}
+                  {servicio.precioDesde === 0 ? "Evaluación" : `$${servicio.precioDesde}`}
                 </div>
               </div>
 
@@ -69,7 +69,7 @@ export default function Servicios() {
                 </span>
                 <span className="flex items-center gap-1">
                   <DollarSign size={14} />
-                  Desde ${servicio.precioDesde}
+                  {servicio.precioDesde === 0 ? "Según evaluación" : `Desde $${servicio.precioDesde}`}
                 </span>
               </div>
 

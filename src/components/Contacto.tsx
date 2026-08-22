@@ -23,7 +23,7 @@ export default function Contacto() {
               <div>
                 <h4 className="font-semibold text-[#1A1A1A] mb-1">Ubicación</h4>
                 <p className="text-gray-500 text-sm">
-                  Calle Vicente Muñoz Barrio #40<br />
+                  Calle Vicente Muñoz Barrios #40, altos<br />
                   Cidra, PR 00739
                 </p>
               </div>
@@ -44,11 +44,11 @@ export default function Contacto() {
               <div>
                 <h4 className="font-semibold text-[#1A1A1A] mb-1">Horario</h4>
                 <div className="text-gray-500 text-sm space-y-1">
-                  <p>Lunes · 9:00 AM – 6:00 PM</p>
-                  <p>Martes · 9:00 AM – 6:00 PM</p>
-                  <p>Jueves · 9:00 AM – 6:00 PM</p>
-                  <p>Viernes · 9:00 AM – 6:00 PM</p>
-                  <p>Sábado · 9:00 AM – 6:00 PM</p>
+                  <p>Lunes · 10:30 AM – 6:00 PM</p>
+                  <p>Martes · 10:30 AM – 6:00 PM</p>
+                  <p>Jueves · 10:30 AM – 6:00 PM</p>
+                  <p>Viernes · 10:30 AM – 5:00 PM</p>
+                  <p>Sábado · 10:00 AM – 7:00 PM</p>
                   <p className="text-gray-300">Miércoles · Cerrado</p>
                   <p className="text-gray-300">Domingo · Cerrado</p>
                 </div>

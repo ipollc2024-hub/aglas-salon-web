@@ -5,6 +5,7 @@ import Equipo from "@/components/Equipo";
 import Membresias from "@/components/Membresias";
 import Testimonios from "@/components/Testimonios";
 import Contacto from "@/components/Contacto";
+import Politicas from "@/components/Politicas";
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
       <Equipo />
       <Membresias />
       <Testimonios />
+      <Politicas />
       <Contacto />
     </>
   );

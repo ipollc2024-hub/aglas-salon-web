@@ -17,7 +17,7 @@ export default function Footer() {
               Navegación
             </h4>
             <ul className="space-y-2 text-sm">
-              {["Inicio", "Servicios", "Galería", "Equipo", "Membresías", "Contacto"].map((l) => (
+              {["Inicio", "Servicios", "Galería", "Equipo", "Membresías", "Políticas", "Contacto"].map((l) => (
                 <li key={l}>
                   <a href={`/#${l.toLowerCase()}`} className="hover:text-[#C9A96E] transition-colors">
                     {l}
@@ -68,7 +68,7 @@ export default function Footer() {
                 </a>
               </li>
               <li className="text-xs mt-4">
-                Calle Vicente Muñoz Barrios<br />
+                Calle Vicente Muñoz Barrios #40, altos<br />
                 Cidra, PR 00739
               </li>
             </ul>

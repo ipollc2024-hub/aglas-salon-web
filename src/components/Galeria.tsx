@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Sparkles, Scissors, Eye, Droplets, Wind } from "lucide-react";
+import { Sparkles, Scissors, Eye, Droplets, Footprints, Waves, Zap, Play } from "lucide-react";
 
 const filters = [
   { label: "Todo", icon: null, category: "all" },
@@ -9,13 +9,14 @@ const filters = [
   { label: "Uñas", icon: Sparkles, category: "nails" },
   { label: "Pestañas", icon: Eye, category: "lashes" },
   { label: "Facial", icon: Droplets, category: "skin" },
-  { label: "Spa", icon: Wind, category: "spa" },
+  { label: "Pedicura", icon: Footprints, category: "pedicure" },
+  { label: "Cuerpo", icon: Waves, category: "body" },
+  { label: "Depilación", icon: Zap, category: "hair-removal" },
+  { label: "Videos", icon: Play, category: "videos" },
 ];
 
 const galleryItems = [
-  // Uñas (14)
-  { category: "nails", foto: "/galeria/uñas-01.jpg" },
-  { category: "nails", foto: "/galeria/uñas-02.jpg" },
+  // Uñas (20)
   { category: "nails", foto: "/galeria/uñas-03.jpg" },
   { category: "nails", foto: "/galeria/uñas-04.jpg" },
   { category: "nails", foto: "/galeria/uñas-05.jpg" },
@@ -57,6 +58,18 @@ const galleryItems = [
   { category: "hair", foto: "/galeria/cabello-05.jpg" },
   { category: "hair", foto: "/galeria/cabello-06.jpg" },
   { category: "hair", foto: "/galeria/cabello-07.jpg" },
+  // Pedicura
+  { category: "pedicure", foto: "/galeria/pedicura-01.png" },
+  // Drenajes, maderoterapia y tratamientos corporales
+  { category: "body", foto: "/galeria/cuerpo-01.jpg" },
+  { category: "body", foto: "/galeria/cuerpo-02.jpg" },
+  // Depilación láser y con cera
+  { category: "hair-removal", foto: "/galeria/depilacion-laser-01.png" },
+  { category: "hair-removal", foto: "/galeria/depilacion-cera-01.png" },
+  { category: "videos", video: "/videos/pedicura-spa.mp4" },
+  { category: "videos", video: "/videos/tratamiento-pies.mp4" },
+  { category: "videos", video: "/videos/cabello-rubio.mp4" },
+  { category: "videos", video: "/videos/corte-bob.mp4" },
 ];
 
 export default function Galeria() {
@@ -106,12 +119,13 @@ export default function Galeria() {
         <div className="columns-2 md:columns-3 lg:columns-4 gap-3 space-y-3">
           {filtered.map((item, idx) => (
             <div key={idx} className="break-inside-avoid rounded-2xl overflow-hidden">
-              <img
-                src={item.foto}
-                alt="Servicio"
-                className="w-full h-auto block"
-                loading="lazy"
-              />
+              {item.video ? (
+                <video controls playsInline preload="metadata" className="w-full h-auto block bg-black">
+                  <source src={item.video} type="video/mp4" />
+                </video>
+              ) : (
+                <img src={item.foto} alt="Servicio realizado en AGLA'S" className="w-full h-auto block" loading="lazy" />
+              )}
             </div>
           ))}
         </div>
