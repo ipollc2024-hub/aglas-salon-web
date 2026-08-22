@@ -60,6 +60,7 @@ const galleryItems = [
   { category: "hair", foto: "/galeria/cabello-07.jpg" },
   // Pedicura
   { category: "pedicure", foto: "/galeria/pedicura-01.png" },
+  { category: "pedicure", foto: "/galeria/pedicura-02.jpg" },
   // Drenajes, maderoterapia y tratamientos corporales
   { category: "body", foto: "/galeria/cuerpo-01.jpg" },
   { category: "body", foto: "/galeria/cuerpo-02.jpg" },
