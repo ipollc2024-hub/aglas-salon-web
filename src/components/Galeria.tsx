@@ -67,6 +67,10 @@ const galleryItems = [
   { category: "body", foto: "/galeria/cuerpo-02.jpg" },
   { category: "body", foto: "/galeria/cuerpo-03.jpg" },
   { category: "body", foto: "/galeria/cuerpo-04.jpg" },
+  { category: "body", foto: "/galeria/cuerpo-05.jpg" },
+  { category: "body", foto: "/galeria/cuerpo-06.jpg" },
+  { category: "body", foto: "/galeria/cuerpo-07.jpg" },
+  { category: "body", foto: "/galeria/cuerpo-08.jpg" },
   { category: "body", video: "/videos/maderoterapia-corporal.mp4" },
   // Depilación láser y con cera
   { category: "hair-removal", foto: "/galeria/depilacion-laser-01.png" },
@@ -83,6 +87,8 @@ const galleryItems = [
   { category: "videos", video: "/videos/cabello-rubio.mp4" },
   { category: "videos", video: "/videos/corte-bob.mp4" },
   { category: "videos", video: "/videos/maderoterapia-corporal.mp4" },
+  { category: "videos", video: "/videos/video-nuevo-08.mp4" },
+  { category: "videos", video: "/videos/video-nuevo-09.mp4" },
 ];
 
 export default function Galeria() {
