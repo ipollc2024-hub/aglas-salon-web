@@ -11,6 +11,7 @@ export const servicios: Servicio[] = [
   svc("secado-largo", "Secado largo", 55, "1 h 30 min", "Cabello"),
   svc("secado-extra-largo", "Secado extra largo", 75, "1 h 45 min", "Cabello"),
   svc("secado-plancha", "Secado + plancha", 45, "1 h 15 min", "Cabello", "Secado profesional con terminado de plancha; precio base para cabello corto"),
+  svc("promo-shot-keratina", "Promoción: Shot de keratina con blower + plancha", 55, "30 min adicionales", "Cabello", "Solo 5 espacios disponibles. Shot de keratina a $55 (precio regular $79) con la compra de blower y plancha a precio regular"),
   svc("ondas", "Ondas / Curls", 50, "1 h 15 min", "Cabello", "Styling con ondas o curls; precio base para cabello corto"),
   svc("peinado-actividad", "Peinado para actividad", 65, "1 h 30 min", "Cabello"),
   svc("corte-puntas", "Corte de puntas", 25, "45 min", "Cabello"),
