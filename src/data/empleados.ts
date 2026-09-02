@@ -50,7 +50,7 @@ export const empleados: Empleado[] = [
   },
   {
     id: "ericson",
-    nombre: "Ericson Gonzalez",
+    nombre: "Ericson González",
     rol: "Estilista Profesional",
     foto: "/empleados/ericson.jpg",
     especialidades: ["Cabello", "Tratamientos de cabello", "Cambios de imagen", "Balayage", "Cabello rizado", "Corte", "Color", "Secado", "Extensiones", "Trenzas", "Crochet", "Peinados"],
