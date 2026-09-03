@@ -1,6 +1,7 @@
 import Hero from "@/components/Hero";
 import Servicios from "@/components/Servicios";
 import Galeria from "@/components/Galeria";
+import Historia from "@/components/Historia";
 import Equipo from "@/components/Equipo";
 import Testimonios from "@/components/Testimonios";
 import Contacto from "@/components/Contacto";
@@ -12,6 +13,7 @@ export default function Home() {
       <Hero />
       <Servicios />
       <Galeria />
+      <Historia />
       <Equipo />
       <Testimonios />
       <Politicas />

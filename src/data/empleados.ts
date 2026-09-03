@@ -4,14 +4,14 @@ export const empleados: Empleado[] = [
   {
     id: "aglaee",
     nombre: "Aglaee Otero Cotto",
-    rol: "Supervisora y Propietaria",
+    rol: "Fundadora y Directora",
     foto: "/empleados/aglaee.jpg",
     especialidades: ["Todos los servicios", "Cabello", "Uñas", "Pestañas", "Faciales", "Masajes", "Depilación"],
     servicios: [
       { nombre: "Supervisión de Servicios", duracion: "Todo el horario" },
       { nombre: "Consultas Especiales", duracion: "Variable" },
     ],
-    bio: "Supervisora y propietaria de AGLA'S Salón & Beauty Spa Clinic, con experiencia en todos los servicios de belleza y bienestar.",
+    bio: "Fundadora y directora de AGLA'S Salón & Beauty Spa Clinic, con más de 25 años dedicados a la belleza y el bienestar.",
     experiencia: "Más de 25 años",
     horario: {
       lunes: { inicio: "10:30", fin: "18:00" },
