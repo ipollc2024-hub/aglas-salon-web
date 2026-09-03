@@ -39,7 +39,7 @@ export default function Hero() {
         {/* Tag */}
         <div className="fade-in inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#C9A96E]/30 text-[#C9A96E] text-sm mb-8">
           <Sparkles size={14} />
-          <span>PUERTO RICO · BELLEZA CON PROPÓSITO</span>
+          <span>BELLEZA CON PROPÓSITO</span>
         </div>
 
         {/* Title */}
