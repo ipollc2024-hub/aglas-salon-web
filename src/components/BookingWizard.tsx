@@ -87,6 +87,7 @@ type FD = {
 
 export default function BookingWizard() {
   const [step,setStep] = useState(0);
+  const [activeCategoria,setActiveCategoria] = useState(categorias[0]);
   const [f,setF] = useState<FD>({servicios:[],empleado:"",fecha:"",hora:"",nombre:"",telefono:"",email:"",metodoPago:null,upsells:[],comprobante:null});
   const [confirmed,setConfirmed] = useState(false);
   const [submitting,setSubmitting] = useState(false);
@@ -176,6 +177,9 @@ export default function BookingWizard() {
   const upTotal = selUp.reduce((a,u)=>a+u.precio,0);
   const svcTotal = selSvcs.reduce((a,s)=>a+s.precioDesde,0);
   const grandTotal = svcTotal + upTotal;
+  const depositAmount = Math.round(grandTotal * 15) / 100;
+  const remainingBalance = Math.round((grandTotal - depositAmount) * 100) / 100;
+  const money = (amount: number) => amount.toFixed(2);
 
   const next = () => setStep(s => Math.min(s+1,steps.length-1));
   const prev = () => setStep(s => Math.max(s-1,0));
@@ -293,14 +297,25 @@ export default function BookingWizard() {
             </div>
           )}
 
-          <div className="space-y-8 max-h-[50vh] overflow-y-auto pr-2">
-            {categorias.map(cat=>{
-              const cs = servicios.filter(s=>s.categoria===cat);
-              return (
-                <div key={cat}>
-                  <h4 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">{cat}</h4>
-                  <div className="space-y-2">
-                    {cs.map(s=>{
+          <div className="flex gap-2 overflow-x-auto pb-3 mb-5 sm:flex-wrap sm:justify-center">
+            {categorias.map(cat => (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => setActiveCategoria(cat)}
+                className={`shrink-0 rounded-full border px-4 py-2 text-sm font-medium transition-all ${activeCategoria===cat
+                  ? "border-[#1A1A1A] bg-[#1A1A1A] text-white"
+                  : "border-gray-200 bg-white text-gray-600 hover:border-[#C9A96E]"}`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+
+          <div className="max-h-[50vh] overflow-y-auto pr-2">
+            <h4 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">{activeCategoria}</h4>
+            <div className="space-y-2">
+              {servicios.filter(s=>s.categoria===activeCategoria).map(s=>{
                       const sel = f.servicios.includes(s.id);
                       return (
                         <button key={s.id} onClick={()=>toggleSvc(s.id)}
@@ -320,11 +335,8 @@ export default function BookingWizard() {
                           </div>
                         </button>
                       );
-                    })}
-                  </div>
-                </div>
-              );
-            })}
+              })}
+            </div>
           </div>
         </div>
       )}
@@ -533,9 +545,16 @@ export default function BookingWizard() {
                   <div className="text-xs text-gray-400 space-y-1">{selUp.map(u=><div key={u.id} className="flex justify-between pl-2"><span>{u.nombre}</span><span>${u.precio}</span></div>)}</div>
                 </div>
               )}
-              <div className="border-t border-gray-200 pt-2 mt-2 flex justify-between text-sm font-bold"><span>Total</span><span className="text-[#C9A96E] text-lg">${grandTotal}</span></div>
+              <div className="border-t border-gray-200 pt-2 mt-2 flex justify-between text-sm"><span>Total del servicio</span><span className="font-medium">${money(grandTotal)}</span></div>
+              <div className="flex justify-between text-sm font-bold mt-2"><span>Depósito requerido (15%)</span><span className="text-[#C9A96E] text-lg">${money(depositAmount)}</span></div>
+              <div className="flex justify-between text-xs text-gray-400 mt-1"><span>Balance a pagar en el salón</span><span>${money(remainingBalance)}</span></div>
             </div>
           )}
+
+          <div className="flex gap-2 rounded-xl border border-[#C9A96E]/30 bg-[#FFF8F0] p-4 mb-6 text-sm text-gray-600">
+            <Info size={18} className="text-[#C9A96E] shrink-0 mt-0.5" />
+            <p>Para separar y confirmar la cita se requiere pagar el <strong>15% del costo del servicio</strong>. El balance restante se paga en el salón.</p>
+          </div>
 
           <div className="space-y-3 mb-6">
             <button onClick={()=>upd("metodoPago","ath")}
@@ -551,8 +570,9 @@ export default function BookingWizard() {
               <div className="bg-[#FFF8F0] rounded-xl p-5 border border-[#C9A96E]/30 space-y-4">
                 <div>
                   <p className="font-medium text-sm text-[#1A1A1A] mb-2">Paga con ATH Móvil Business</p>
-                  <p className="text-xs text-gray-500 mb-1">Transfiere el total a este número:</p>
+                  <p className="text-xs text-gray-500 mb-1">Transfiere el depósito del 15% a este número:</p>
                   <p className="text-lg font-bold text-[#C9A96E]">(787) 907-8229</p>
+                  <p className="text-sm font-semibold text-[#1A1A1A] mt-2">Monto del depósito: <span className="text-[#C9A96E]">${money(depositAmount)}</span></p>
                   <p className="text-xs text-gray-400 mt-1">AGLA'S SALÓN & BEAUTY SPA CLINIC</p>
                 </div>
                 <div className="border-t border-[#C9A96E]/20 pt-4">
@@ -612,10 +632,10 @@ export default function BookingWizard() {
             className="flex items-center gap-2 bg-[#C9A96E] hover:bg-[#B8955A] disabled:bg-gray-300 disabled:cursor-not-allowed text-white px-6 py-3 rounded-full text-sm font-semibold transition-all">
             Siguiente <ChevronRight size={18}/>
           </button>
-        ) : (
-          <button onClick={confirm} disabled={!canGo()||submitting}
+        ) : f.metodoPago === "tarjeta" ? <div/> : (
+          <button onClick={confirm} disabled={!canGo()||!f.comprobante||submitting}
             className="bg-[#C9A96E] hover:bg-[#B8955A] disabled:bg-gray-300 disabled:cursor-not-allowed text-white px-8 py-3 rounded-full text-sm font-semibold transition-all">
-            {submitting ? "ENVIANDO..." : "CONFIRMAR RESERVA"}
+            {submitting ? "ENVIANDO..." : `CONFIRMAR DEPÓSITO DE $${money(depositAmount)}`}
           </button>
         )}
       </div>

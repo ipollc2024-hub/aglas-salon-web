@@ -11,6 +11,9 @@ export default function ReservarPage() {
           <p className="text-gray-500 max-w-xl mx-auto">
             Selecciona tu servicio, elige tu especialista, escoge tu horario — y déjanos el resto.
           </p>
+          <p className="mt-4 inline-block rounded-full border border-[#C9A96E]/30 bg-white px-5 py-2 text-sm font-semibold text-[#9A7845]">
+            Se requiere un depósito del 15% del costo del servicio para separar la cita.
+          </p>
         </div>
         <BookingWizard />
       </div>
