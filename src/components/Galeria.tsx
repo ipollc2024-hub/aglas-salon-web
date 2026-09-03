@@ -59,7 +59,7 @@ const galleryItems = [
   { category: "hair", foto: "/galeria/cabello-06.jpg" },
   { category: "hair", foto: "/galeria/cabello-07.jpg" },
   // Pedicura
-  { category: "pedicure", foto: "/galeria/pedicura-01.png" },
+  { category: "pedicure", foto: "/galeria/pedicura-01.webp" },
   { category: "pedicure", foto: "/galeria/pedicura-02.jpg" },
   { category: "pedicure", foto: "/galeria/pedicura-03.jpg" },
   // Drenajes, maderoterapia y tratamientos corporales
@@ -73,8 +73,8 @@ const galleryItems = [
   { category: "body", foto: "/galeria/cuerpo-08.jpg" },
   { category: "body", video: "/videos/maderoterapia-corporal.mp4" },
   // Depilación láser y con cera
-  { category: "hair-removal", foto: "/galeria/depilacion-laser-01.png" },
-  { category: "hair-removal", foto: "/galeria/depilacion-cera-01.png" },
+  { category: "hair-removal", foto: "/galeria/depilacion-laser-01.webp" },
+  { category: "hair-removal", foto: "/galeria/depilacion-cera-01.webp" },
   { category: "videos", video: "/videos/pedicura-spa.mp4" },
   { category: "videos", video: "/videos/tratamiento-pies.mp4" },
   { category: "videos", video: "/videos/pedicura-nueva-01.mp4" },
@@ -94,8 +94,10 @@ const galleryItems = [
 export default function Galeria() {
   const [activeFilter, setActiveFilter] = useState("all");
 
+  // Keep videos out of the initial "Todo" view. Even metadata requests for
+  // every video add significant network work on mobile connections.
   const filtered = activeFilter === "all"
-    ? galleryItems
+    ? galleryItems.filter((item) => !item.video)
     : galleryItems.filter((item) => item.category === activeFilter);
 
   return (
@@ -139,7 +141,7 @@ export default function Galeria() {
           {filtered.map((item, idx) => (
             <div key={idx} className="break-inside-avoid rounded-2xl overflow-hidden">
               {item.video ? (
-                <video controls playsInline preload="metadata" className="w-full h-auto block bg-black">
+                <video controls playsInline preload="none" className="w-full h-auto block bg-black">
                   <source src={item.video} type="video/mp4" />
                 </video>
               ) : (
